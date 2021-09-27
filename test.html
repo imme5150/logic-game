@@ -1,0 +1,1989 @@
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <style media="screen">
+    #sidebar {
+      border-right: 1px solid;
+      background: #EEE
+    }
+    #content circle.input, #content circle.output, #content .switch,
+    .notAddingLine line.removable, tr.clickable {
+      cursor:pointer
+    }
+    .notAddingLine line.removable:hover {
+      stroke-width: 10;
+      stroke-opacity: 0.7;
+    }
+    .draggable {
+      cursor:move;
+    }
+    #content circle.input:hover, circle.input.active {
+      fill:#F00;
+      stroke-width: 8%;
+      stroke: #F00;
+    }
+    circle.input.active, circle.output.active {
+      stroke-width: 2% !important;
+      stroke: #000 !important;
+    }
+    #content circle.output:hover, circle.output.active {
+      fill:#0F0;
+      stroke-width: 8%;
+      stroke: #0F0;
+    }
+    path.LED {
+      fill:#FFF;
+    }
+    #content .lcd.ones path, #content .lcd.tens path {
+      fill:#BBB;
+    }
+    .active path.LED, #content .lcd path.active {
+      fill:#00F;
+    }
+    #container {
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+    }
+    .active circle.toggle {
+      fill:#00F;
+      stroke:#00F;
+      transform: translate(-4004px)
+    }
+    .active line.on, text.off {
+      opacity:1;
+    }
+    line.on, .active text.off {
+      opacity:0;
+    }
+    #connections line {
+      stroke:#000;
+    }
+    #connections line.active {
+      stroke:#00F;
+    }
+    label, text {
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+    label {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+    th, td {
+      padding: 4px 8px;
+    }
+    td.wrong {
+      color: #F00;
+      border: 3px solid red !important;
+    }
+    tr.active {
+      font-weight: bold;
+    }
+    tr.active td:first-child {
+      border-left:8px solid blue;
+      padding-left:0;
+    }
+    .hidden {
+      display:none;
+    }
+  </style>
+  <div id="container" style="width:100%;height:100%;display:flex">
+    <div id="sidebar" style="flex:0 0 99px;padding:20px 0 0 9px">
+      <div class="hidden draggable component switch" style="width:min-content" data-name="toggle">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110" height="75" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+        <g>
+          <circle data-name="out" cx="1030" cy="500" r="80" class="output connection">
+             <title>output</title>
+           </circle>
+           <rect x="44" y="300" width="915" height="400" rx="250" fill="#FFF" stroke-width="45" stroke="#000"/>
+          <g transform="translate(0.000000,511.000000) scale(0.100000,-0.100000)">
+          <circle class="toggle" cx="7000" cy="100" r="1200" style="stroke-width:400px"/>
+          <text class="off" x="2300" y="1000" style="font-size:3000px">0</text>
+</g>
+          <line class="on" x1="660" x2="660" y1="385" y2="615" stroke-width="50" stroke="#00F"/>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="and">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="563" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="588" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="478" y="581">AND</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="and3">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="557" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="575" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="c" cx="460" cy="593" r="8" class="input connection">
+                  <title>input c</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="478" y="581">AND</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="or">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="563" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="588" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="483" y="581">OR</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="or3">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="557" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="575" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="c" cx="460" cy="593" r="8" class="input connection">
+                  <title>input c</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="483" y="581">OR</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="xor">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="563" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="588" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="478" y="581">XOR</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="xor3">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="557" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="575" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="c" cx="460" cy="593" r="8" class="input connection">
+                  <title>input c</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+                <path d="M 0.62119374,0.033722662 C 0.63150617,0.033722662 0.64181861,0.033722662 0.65213104,0.033722662 C 0.65365881,0.033722662 0.65537755,0.033913633 0.65728726,0.034295575 C 0.65919697,0.034677517 0.66110668,0.035441401 0.66299903,0.036587227 C 0.66490874,0.037715692 0.66681845,0.039451792 0.66872816,0.041726083 C 0.67063787,0.044017735 0.67197467,0.04670869 0.67273855,0.049746865 C 0.67350243,0.052802401 0.67350243,0.055857937 0.67273855,0.058913473 C 0.67197467,0.061969009 0.67063787,0.064642603 0.66872816,0.066934255 C 0.66681845,0.069208546 0.66490874,0.070927285 0.66299903,0.072090472 C 0.66110668,0.073218937 0.65919697,0.073982821 0.65728726,0.074364763 C 0.65537755,0.074746705 0.65365881,0.074937676 0.65213104,0.074937676 C 0.65060328,0.074937676 0.64506512,0.074937676 0.63551657,0.074937676 C 0.62596802,0.074937676 0.62119374,0.074937676 0.62119374,0.074937676 C 0.62119374,0.074937676 0.62119374,0.06806272 0.62119374,0.054312808 L 0.62119374,0.033722662 z " transform="matrix(1438.57,0,0,1438.57,-432.102,495.9343)" style="fill:white;stroke:black;stroke-width:0.0027"/>
+                <text x="478" y="581">XOR</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="halfadder">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="83">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="563" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="460" cy="588" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="sum" cx="538" cy="575" r="8" class="output connection">
+                  <title>sum</title>
+                </circle>
+                <circle data-name="carry" cx="520" cy="605" r="8" class="output connection">
+                  <title>carry</title>
+                </circle>
+                <rect width="78" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+                <text x="480" y="571">half</text>
+                <text x="473" y="591">adder</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="fulladder">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="a" cx="460" cy="563" r="8" class="input connection">
+              <title>input a</title>
+            </circle>
+            <circle data-name="b" cx="460" cy="588" r="8" class="input connection">
+              <title>input b</title>
+            </circle>
+            <circle data-name="c" cx="480" cy="543" r="8" class="input connection">
+              <title>carry input</title>
+            </circle>
+            <circle data-name="sum" cx="538" cy="575" r="8" class="output connection">
+              <title>sum</title>
+            </circle>
+            <circle data-name="carry" cx="520" cy="605" r="8" class="output connection">
+              <title>carry</title>
+            </circle>
+            <rect width="78" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="485" y="571">full</text>
+            <text x="473" y="591">adder</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="not">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="100" height="60" viewBox="14 10 50 30">
+          <circle data-name="in" cx="19" cy="26" r="3" class="input connection">
+            <title>input</title>
+          </circle>
+          <circle data-name="out" cx="55" cy="26" r="3" class="output connection">
+            <title>output</title>
+          </circle>
+          <path d="M 23.0,39.3 L 23.0,11.3 51.4 25.3 23.0 39.3 z " style="stroke:#000;stroke-width:2px;stroke-linecap:square;stroke-opacity:1;fill:#FFF"/>
+          <text x="25" y="28.5" style="font-size:7.5px;font-weight:bold;font-family:sans-serif">NOT</text>
+          <circle data-name="in2" cx="460" cy="588" r="8" class="input connection">
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="output">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="70" height="50">
+          <circle data-name="in" cx="19" cy="26" r="7" class="input connection">
+            <title>input</title>
+          </circle>
+          <!-- <circle data-name="out" cx="55" cy="26" r="7" class="output connection">
+            <title>output</title>
+          </circle> -->
+          <path class="LED" d="M 23.0,39.3 L 23.0,11.3 51.4 25.3 23.0 39.3 z " style="stroke:#000000;stroke-width:1mm;stroke-linecap:square;stroke-opacity:1"/>
+          <path d="M 52.7,39.3 L 52.7,11.3" style="fill:none;stroke:#000000;stroke-width:1mm;stroke-linecap:square;stroke-opacity:1"/>
+          <path d="M 38.5,0.4 L 32.5,4.3 L 34.9,5.5 L 32.4,10.4 L 32,11.2 L 33.6,12 L 34,11.2 L 36.5,6.3 L 38.8,7.5 L 38.5,0.4 z " style="fill:#00F;fill-opacity:1;stroke:none"/>
+          <path d="M 47,4.8 L 41.1,8.6 L 43.5,9.8 L 41,14.7 L 40.6,15.5 L 42.2,16.3 L 42.6,15.5 L 45,10.6 L 47.4,11.8 L 47,4.8 z " style="fill:#00F;fill-opacity:1;stroke:none"/>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="decoder2">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="563" r="8" class="input connection">
+              <title>input 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="586" r="8" class="input connection">
+              <title>input 2</title>
+            </circle>
+            <circle data-name="out0" cx="526" cy="543" r="8" class="output connection">
+              <title>output 0</title>
+            </circle>
+            <circle data-name="out1" cx="544" cy="563" r="8" class="output connection">
+              <title>output 1</title>
+            </circle>
+            <circle data-name="out2" cx="544" cy="588" r="8" class="output connection">
+              <title>output 2</title>
+            </circle>
+            <circle data-name="out3" cx="526" cy="605" r="8" class="output connection">
+              <title>output 3</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="465" y="580">decoder</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="decoder3">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="556" r="8" class="input connection">
+              <title>input 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="574" r="8" class="input connection">
+              <title>input 2</title>
+            </circle>
+            <circle data-name="in4" cx="460" cy="593" r="8" class="input connection">
+              <title>input 4</title>
+            </circle>
+            <circle data-name="out0" cx="486" cy="543" r="8" class="output connection">
+              <title>output 0</title>
+            </circle>
+            <circle data-name="out1" cx="509" cy="543" r="8" class="output connection">
+              <title>output 1</title>
+            </circle>
+            <circle data-name="out2" cx="532" cy="543" r="8" class="output connection">
+              <title>output 2</title>
+            </circle>
+            <circle data-name="out3" cx="544" cy="563" r="8" class="output connection">
+              <title>output 3</title>
+            </circle>
+            <circle data-name="out4" cx="544" cy="588" r="8" class="output connection">
+              <title>output 4</title>
+            </circle>
+            <circle data-name="out5" cx="532" cy="605" r="8" class="output connection">
+              <title>output 5</title>
+            </circle>
+            <circle data-name="out6" cx="509" cy="605" r="8" class="output connection">
+              <title>output 6</title>
+            </circle>
+            <circle data-name="out7" cx="486" cy="605" r="8" class="output connection">
+              <title>output 7</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="465" y="580">decoder</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="dmux3">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="556" r="8" class="input connection">
+              <title>input 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="574" r="8" class="input connection">
+              <title>input 2</title>
+            </circle>
+            <circle data-name="in4" cx="460" cy="593" r="8" class="input connection">
+              <title>input 4</title>
+            </circle>
+            <circle data-name="out0" cx="492" cy="543" r="8" class="output connection">
+              <title>output 0</title>
+            </circle>
+            <circle data-name="out1" cx="512" cy="543" r="8" class="output connection">
+              <title>output 1</title>
+            </circle>
+            <circle data-name="out2" cx="532" cy="543" r="8" class="output connection">
+              <title>output 2</title>
+            </circle>
+            <circle data-name="out3" cx="544" cy="556" r="8" class="output connection">
+              <title>output 3</title>
+            </circle>
+            <circle data-name="out4" cx="544" cy="574" r="8" class="output connection">
+              <title>output 4</title>
+            </circle>
+            <circle data-name="out5" cx="544" cy="592" r="8" class="output connection">
+              <title>output 5</title>
+            </circle>
+            <circle data-name="out6" cx="532" cy="605" r="8" class="output connection">
+              <title>output 6</title>
+            </circle>
+            <circle data-name="out7" cx="512" cy="605" r="8" class="output connection">
+              <title>output 7</title>
+            </circle>
+            <circle data-name="selector" cx="472" cy="605" r="8" class="input connection">
+              <title>selector (on or off)</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="475" y="580">DMUX</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="decoder4">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="175">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="585" r="8" class="input connection">
+              <title>input 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="605" r="8" class="input connection">
+              <title>input 2</title>
+            </circle>
+            <circle data-name="in4" cx="460" cy="625" r="8" class="input connection">
+              <title>input 4</title>
+            </circle>
+            <circle data-name="in8" cx="460" cy="645" r="8" class="input connection">
+              <title>input 8</title>
+            </circle>
+            <circle data-name="out0" cx="476" cy="543" r="8" class="output connection">
+              <title>output 0</title>
+            </circle>
+            <circle data-name="out1" cx="494" cy="543" r="8" class="output connection">
+              <title>output 1</title>
+            </circle>
+            <circle data-name="out2" cx="512" cy="543" r="8" class="output connection">
+              <title>output 2</title>
+            </circle>
+            <circle data-name="out3" cx="530" cy="543" r="8" class="output connection">
+              <title>output 3</title>
+            </circle>
+            <circle data-name="out4" cx="544" cy="553" r="8" class="output connection">
+              <title>output 4</title>
+            </circle>
+            <circle data-name="out5" cx="544" cy="571" r="8" class="output connection">
+              <title>output 5</title>
+            </circle>
+            <circle data-name="out6" cx="544" cy="589" r="8" class="output connection">
+              <title>output 6</title>
+            </circle>
+            <circle data-name="out7" cx="544" cy="607" r="8" class="output connection">
+              <title>output 7</title>
+            </circle>
+            <circle data-name="out8" cx="544" cy="625" r="8" class="output connection">
+              <title>output 8</title>
+            </circle>
+            <circle data-name="out9" cx="544" cy="643" r="8" class="output connection">
+              <title>output 9</title>
+            </circle>
+            <circle data-name="out10" cx="544" cy="661" r="8" class="output connection">
+              <title>output 10</title>
+            </circle>
+            <circle data-name="out11" cx="544" cy="679" r="8" class="output connection">
+              <title>output 11</title>
+            </circle>
+            <circle data-name="out12" cx="530" cy="690" r="8" class="output connection">
+              <title>output 12</title>
+            </circle>
+            <circle data-name="out13" cx="512" cy="690" r="8" class="output connection">
+              <title>output 13</title>
+            </circle>
+            <circle data-name="out14" cx="494" cy="690" r="8" class="output connection">
+              <title>output 14</title>
+            </circle>
+            <circle data-name="out15" cx="476" cy="690" r="8" class="output connection">
+              <title>output 15</title>
+            </circle>
+            <rect width="84" height="145" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="480" y="608">4 bit</text>
+            <text x="465" y="628">decoder</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="dmux2">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="563" r="8" class="input connection">
+              <title>input 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="588" r="8" class="input connection">
+              <title>input 2</title>
+            </circle>
+            <circle data-name="out0" cx="526" cy="543" r="8" class="output connection">
+              <title>output 0</title>
+            </circle>
+            <circle data-name="out1" cx="544" cy="563" r="8" class="output connection">
+              <title>output 1</title>
+            </circle>
+            <circle data-name="out2" cx="544" cy="588" r="8" class="output connection">
+              <title>output 2</title>
+            </circle>
+            <circle data-name="out3" cx="526" cy="605" r="8" class="output connection">
+              <title>output 3</title>
+            </circle>
+            <circle data-name="selector" cx="475" cy="605" r="8" class="input connection">
+              <title>selector (on or off)</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="475" y="580">DMUX</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="lcd7">
+        <svg xmlns="http://www.w3.org/2000/svg" height="110" width="80">
+          <circle cx="40" cy="14" r="6" class="input connection" data-name="t">
+            <title>top</title>
+          </circle>
+          <circle cx="14" cy="35" r="6" class="input connection" data-name="tl">
+            <title>top left</title>
+          </circle>
+          <circle cx="66" cy="42" r="6" class="input connection" data-name="tr">
+            <title>top right</title>
+          </circle>
+          <circle cx="14" cy="57" r="6" class="input connection" data-name="m">
+            <title>middle</title>
+          </circle>
+          <circle cx="14" cy="79" r="6" class="input connection" data-name="bl">
+            <title>bottom left</title>
+          </circle>
+          <circle cx="66" cy="70" r="6" class="input connection" data-name="br">
+            <title>bottom right</title>
+          </circle>
+          <circle cx="40" cy="99" r="6" class="input connection" data-name="b">
+            <title>bottom</title>
+          </circle>
+          <rect x="15" y="15" width="50" height="82" fill="#BBB" stroke-width="3" stroke="#000"/>
+          <g class="lcd" transform="translate(24,24)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="lcd9">
+        <svg xmlns="http://www.w3.org/2000/svg" height="110" width="80">
+          <circle cx="30" cy="14" r="6" class="input connection" data-name="0">
+            <title>0</title>
+          </circle>
+          <circle cx="50" cy="14" r="6" class="input connection" data-name="1">
+            <title>1</title>
+          </circle>
+          <circle cx="66" cy="35" r="6" class="input connection" data-name="2">
+            <title>2</title>
+          </circle>
+          <circle cx="66" cy="57" r="6" class="input connection" data-name="3">
+            <title>3</title>
+          </circle>
+          <circle cx="66" cy="79" r="6" class="input connection" data-name="4">
+            <title>4</title>
+          </circle>
+          <circle cx="50" cy="99" r="6" class="input connection" data-name="5">
+            <title>5</title>
+          </circle>
+          <circle cx="30" cy="99" r="6" class="input connection" data-name="6">
+            <title>6</title>
+          </circle>
+          <circle cx="14" cy="79" r="6" class="input connection" data-name="7">
+            <title>7</title>
+          </circle>
+          <circle cx="14" cy="57" r="6" class="input connection" data-name="8">
+            <title>8</title>
+          </circle>
+          <circle cx="14" cy="35" r="6" class="input connection" data-name="9">
+            <title>9</title>
+          </circle>
+          <rect x="15" y="15" width="50" height="82" fill="#BBB" stroke-width="3" stroke="#000"/>
+          <g class="lcd" transform="translate(24,24)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="lcd4">
+        <svg xmlns="http://www.w3.org/2000/svg" height="90" width="101">
+          <circle cx="11" cy="20" r="6" class="input connection" data-name="in1">
+            <title>Input 1</title>
+          </circle>
+          <circle cx="11" cy="38" r="6" class="input connection" data-name="in2">
+            <title>Input 2</title>
+          </circle>
+          <circle cx="11" cy="56" r="6" class="input connection" data-name="in4">
+            <title>Input 4</title>
+          </circle>
+          <circle cx="11" cy="74" r="6" class="input connection" data-name="in8">
+            <title>Input 8</title>
+          </circle>
+          <rect x="12" y="5" width="88" height="82" fill="#BBB" stroke-width="3" stroke="#000"/>
+          <g class="lcd tens" transform="translate(20,14)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+          <g class="lcd ones" transform="translate(61,14)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div id="content" style="flex:1 0 0">
+      <h1 id="level-title" style="position:absolute;left:226px;top:0"></h1>
+      <svg id="connections" class="notAddingLine" style="width:100%;height:100%;stroke-linecap:round;z-index:10"></svg>
+      <div id="truth-table-container" style="text-align:center;position:absolute;top:0;right:3%;max-width:630px;height:100%;overflow-y:auto">
+        <h2 style="text-align:center">Truth Table</h2>
+        <table id="truth-table" style="text-align:center">
+          <tr>
+            <th id="truth-table-inputs">Inputs</th>
+            <th id="truth-table-outputs">Outputs</th>
+          </tr>
+        </table>
+        <button id="check-button" style="margin:10px">Check inputs and outputs</button>
+        <br />
+        <a id="next-button" class="hidden" href="?l=1">Next Level</a>
+      </div>
+    </div>
+  </div>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
+  <script src="interact.min.js"></script>
+  <script type="text/javascript">
+  var components = {};
+  var nextComponentID = 0;
+  var componentTemplates = {
+    lcd7: {type:'lcd7', input:{t:[], tl:[], tr:[], m:[], bl:[], b:[], br:[]}, output:{}},
+    lcd9: {type:'lcd9', input:{0:null, 1:null, 2:null, 3:null, 4:null, 5:null, 6:null, 7:null, 8:null, 9:null}, output:{}},
+    lcd4: {type:'lcd4', input:{in1:null, in2:null, in4:null, in8:null}, output:{}},
+    or: {type:'or', input:{a:null, b:null}, output:{out:[]}},
+    xor: {type:'xor', input:{a:null, b:null}, output:{out:[]}},
+    xor3: {type:'xor3', input:{a:null, b:null, c:null}, output:{out:[]}},
+    and: {type:'and', input:{a:null, b:null}, output:{out:[]}},
+    and3: {type:'and3', input:{a:null, b:null, c:null}, output:{out:[]}},
+    halfadder: {type:'halfadder', input:{a:null, b:null}, output:{sum:[], carry:[]}},
+    fulladder: {type:'fulladder', input:{a:null, b:null, c:null}, output:{sum:[], carry:[]}},
+    decoder2: {type:'decoder2', input:{in1:null, in2:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
+    decoder3: {type:'decoder3', input:{in1:null, in2:null, in4:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
+    decoder4: {type:'decoder4', input:{in1:null, in2:null, in4:null, in8:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[], out8:[], out9:[], out10:[], out11:[], out12:[], out13:[], out14:[], out15:[]}},
+    dmux2: {type:'dmux2', input:{in1:null, in2:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
+    dmux3: {type:'dmux3', input:{in1:null, in2:null, in4:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
+    toggle: {type:'toggle', output:{out:[]}},
+    output: {type:'output', input:{in:null}, output:{out:[]}},
+    not: {type:'not', input:{in:null}, output:{out:[]}}
+  }
+  function decoder(inputs) {
+    var count = 0;
+    var inputCount = 0;
+    for (var name in inputs) {
+      inputCount += 1;
+      if (inputs[name]) {
+        number = Number(name.slice(2));
+        count += number;
+      }
+    }
+    results = {};
+    for (var i=2 ** inputCount - 1; i>=0; i--) {
+      results[`out${i}`] = (count === i);
+    }
+    return results
+  }
+  function setSegments(inputs, element) {
+    var segments = {t:false, tl:false, tr:false, m:false, bl:false, br:false, b:false};
+    if (Object.values(inputs).filter(v => v).length > 1) {
+      segments = {t:false, tl:false, tr:false, m:true, bl:false, br:false, b:false};
+    } else if (inputs['0']) {
+      segments = {t:true, tl:true, tr:true, m:false, bl:true, br:true, b:true};
+    } else if (inputs['1']) {
+      segments = {t:false, tl:false, tr:true, m:false, bl:false, br:true, b:false};
+    } else if (inputs['2']) {
+      segments = {t:true, tl:false, tr:true, m:true, bl:true, br:false, b:true};
+    } else if (inputs['3']) {
+      segments = {t:true, tl:false, tr:true, m:true, bl:false, br:true, b:true};
+    } else if (inputs['4']) {
+      segments = {t:false, tl:true, tr:true, m:true, bl:false, br:true, b:false};
+    } else if (inputs['5']) {
+      segments = {t:true, tl:true, tr:false, m:true, bl:false, br:true, b:true};
+    } else if (inputs['6']) {
+      segments = {t:true, tl:true, tr:false, m:true, bl:true, br:true, b:true};
+    } else if (inputs['7']) {
+      segments = {t:true, tl:false, tr:true, m:false, bl:false, br:true, b:false};
+    } else if (inputs['8']) {
+      segments = {t:true, tl:true, tr:true, m:true, bl:true, br:true, b:true};
+    } else if (inputs['9']) {
+      segments = {t:true, tl:true, tr:true, m:true, bl:false, br:true, b:true};
+    }
+    for (var name in segments) {
+      var segment = element.querySelector(`path[data-name="${name}"]`);
+      if (segments[name]) {
+        segment.classList.add('active');
+      } else {
+        segment.classList.remove('active');
+      }
+    }
+    return {}
+  }
+  function dmux(inputs, element) {
+    var count = 0;
+    var inputCount = 0;
+    for (var name in inputs) {
+      if (name == 'selector') {
+        continue
+      }
+      inputCount += 1;
+      if (inputs[name]) {
+        number = Number(name.slice(-1));
+        count += number;
+      }
+    }
+    if (!inputs['selector']) {
+      count = false;
+    }
+    results = {};
+    for (var i=2 ** inputCount - 1; i>=0; i--) {
+      results[`out${i}`] = (count === i);
+    }
+    return results
+  }
+  const functions = {
+    dmux2: dmux,
+    dmux3: dmux,
+    decoder2: decoder,
+    decoder3: decoder,
+    decoder4: decoder,
+    lcd7: function (inputs, element) {
+      for (var name in inputs) {
+        var segment = element.querySelector(`path[data-name="${name}"]`);
+        if (inputs[name]) {
+          segment.classList.add('active');
+        } else {
+          segment.classList.remove('active');
+        }
+      }
+      return {}
+    },
+    lcd9: function (inputs, element) {
+      return setSegments(inputs, element)
+    },
+    lcd4: function (inputs, element) {
+      var count = 0;
+      for (var name in inputs) {
+        if (inputs[name]) {
+          number = Number(name.slice(2));
+          count += number;
+        }
+      }
+      const ones = {};
+      ones[count % 10] = true;
+      setSegments(ones, element.querySelector('.ones'));
+      const tens = {};
+      if (count > 9) {
+        tens['1'] = true;
+      } else {
+        tens['0'] = true;
+      }
+      setSegments(tens, element.querySelector('.tens'));
+      return {}
+    },
+    or: function (inputs) {
+      return {out:inputs.a || inputs.b}
+    },
+    xor: function (inputs) {
+      return {out:(inputs.a || inputs.b) && !(inputs.a && inputs.b)}
+    },
+    xor3: function (inputs) {
+      return {out:Object.values(inputs).filter(v => v).length % 2 == 1}
+    },
+    and: function (inputs) {
+      return {out:inputs.a && inputs.b}
+    },
+    and3: function (inputs) {
+      return {out:inputs.a && inputs.b && inputs.c}
+    },
+    toggle: function (inputs, element) {
+      return {out:element.classList.contains('active')}
+    },
+    not: function (inputs) {
+      return {out:!inputs.in}
+    },
+    output: function (inputs, element) {
+      if (inputs.in) {
+        element.classList.add('active');
+      } else {
+        element.classList.remove('active');
+      }
+      return {out:inputs.in}
+    },
+    halfadder: function (inputs) {
+      return {
+        sum: (inputs.a || inputs.b) && !(inputs.a && inputs.b),
+        carry: inputs.a && inputs.b
+      }
+    },
+    fulladder: function (inputs) {
+      const count = Object.values(inputs).filter(v => v).length;
+      return {
+        sum: count % 2 == 1,
+        carry: count > 1
+      }
+    }
+  }
+  var activeConnection = false;
+  document.getElementById("content").addEventListener('click', function (e) {
+    const targetConnector = e.target.nodeName == 'circle' && e.target.classList.contains('connection');
+    if (activeConnection) {
+      if (targetConnector && !e.target.classList.contains(activeConnection.startType)) {
+        let container = document.getElementById("connections").getBoundingClientRect();
+        targetX = e.target.getBoundingClientRect().x - container.left + 8;
+        targetY = e.target.getBoundingClientRect().y;
+        const activeLine = document.getElementById("connections").lastElementChild;
+        let source, target;
+        if (activeConnection.startType == 'input') {
+          source = e.target;
+          target = activeConnection.startNode;
+          activeLine.setAttribute('x2', activeLine.getAttribute('x1'));
+          activeLine.setAttribute('y2', activeLine.getAttribute('y1'));
+          activeLine.setAttribute('x1', targetX);
+          activeLine.setAttribute('y1', targetY);
+        } else {
+          source = activeConnection.startNode;
+          target = e.target;
+          activeLine.setAttribute('x2', targetX);
+          activeLine.setAttribute('y2', targetY);
+        }
+        components[source.closest('.component').dataset.id].output[source.dataset.name].push(activeLine);
+        const targetInputs = components[target.closest('.component').dataset.id].input;
+        // Does this target allow multiple inputs?
+        if (Array.isArray(targetInputs[target.dataset.name])) {
+          targetInputs[target.dataset.name].push(activeLine)
+        } else { // only 1 input
+          if (prevInput = targetInputs[target.dataset.name]) {
+            prevInput.remove();
+            // TODO - remove references to it
+          }
+          targetInputs[target.dataset.name] = activeLine;
+        }
+      } else { // not a propper connection
+        return // ignore this click
+      }
+      activeConnection.startNode.classList.remove('active');
+      document.getElementById("connections").classList.add('notAddingLine');
+      activeConnection = false;
+    } else if (targetConnector) {
+      e.target.classList.add('active');
+      document.getElementById("connections").classList.remove('notAddingLine');
+      activeConnection = {startNode:e.target};
+      activeConnection.startType = e.target.classList.contains('input') ? 'input' : 'output';
+      let container = document.getElementById("connections").getBoundingClientRect();
+      currentSelectionX = e.target.getBoundingClientRect().x - container.left;
+      currentSelectionY = e.target.getBoundingClientRect().y;
+      let mouse_x = e.clientX - container.left;
+      let mouse_y = e.clientY;
+      drawLine(currentSelectionX + 8, currentSelectionY, mouse_x, mouse_y);
+    } else if((sw = e.target.closest('.switch'))) {
+      if (sw.classList.contains('active')) {
+        sw.classList.remove('active');
+      } else {
+        sw.classList.add('active');
+      }
+      rowNum = 0;
+      const inputs = level.elements.toggle;
+      removeClassFromAll('active', 'tr.active');
+      // This shortcut only works if we have all possible truth values
+      if (2 ** (inputs.length) == level.truthTable.length) {
+        inputs.forEach((details, index) => {
+          if (document.getElementById(`input-${index}`).classList.contains('active')) {
+            rowNum += 2 ** (inputs.length - index - 1);
+          }
+        });
+        document.getElementById(`table-row${rowNum}`).classList.add('active')
+      }
+    }
+  });
+  var connections = {};
+  var actuallyDragging = false;
+  window.addEventListener('mousedown', function (e) {
+    actuallyDragging = !!e.target.closest(".draggable");
+  });
+  window.addEventListener('mouseup', function (e) {
+    actuallyDragging = false;
+  });
+  window.addEventListener('contextmenu', function (e) {
+    e.preventDefault()
+    if (activeConnection){
+      document.getElementById("connections").lastElementChild.remove();
+      activeConnection.startNode.classList.remove('active');
+      document.getElementById("connections").classList.add('notAddingLine');
+      activeConnection = false;
+    } else {
+      removeComponent(e.target.closest(".removable"));
+    }
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (activeConnection){
+      let container = document.getElementById("connections").getBoundingClientRect();
+      document.getElementById("connections")
+        .lastElementChild.setAttribute('x2', e.clientX - container.left);
+      document.getElementById("connections")
+        .lastElementChild.setAttribute('y2',e.clientY);
+    }
+  });
+function removeComponent(component) {
+  if (!component) return
+  const componentID = component.dataset.id;
+  if (componentID) {
+    const connections = components[componentID];
+    for (const name in connections.input) {
+      if (connector = connections.input[name]) {
+        connector.classList.remove('active');
+        connector.remove();
+      }
+    }
+    for (const name in connections.output) {
+      connections.output[name].forEach(function(connector) {
+        connector.classList.remove('active');
+        connector.remove();
+      });
+    }
+    delete components[componentID];
+  } else { // not actually a component, should be a line
+    for (const componentID in components) {
+      for (const name in components[componentID].input) {
+        if (Array.isArray(components[componentID].input[name])) {
+          components[componentID].input[name] = components[componentID].input[name].filter(item => item !== component)
+        } else { // Only 1 input allowed
+          if (component == components[componentID].input[name]) {
+            components[componentID].input[name] = null;
+          }
+        }
+      }
+      // TODO - remove from outputs as well
+      // for (const name in connections.input) {
+      //   if (component == connections.input[name]) {
+      //     connections.input[name] = null;
+      //   }
+      // }
+    }
+  }
+  component.remove();
+}
+// Draw an SVG line
+function drawLine(x1, y1, x2, y2) {
+    var newLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    newLine.setAttribute('x1', x1);
+    newLine.setAttribute('y1', y1);
+    newLine.setAttribute('x2', x2);
+    newLine.setAttribute('y2', y2);
+    newLine.setAttribute('stroke-width', '4');
+    newLine.setAttribute('class', 'removable');
+    document.getElementById('connections')
+            .appendChild(newLine);
+}
+  // This stores the position of the current item being dragged
+  const position = { x: 0, y: 0 };
+
+  interact(".draggable")
+    .draggable({
+      // By setting manualStart to true - we control the manualStart.
+      // We need to do this so that we can clone the object before we begin dragging it.
+      manualStart: true,
+      inertia: false,
+      // // keep the element within the area of it's parent
+      // modifiers: [
+      //   interact.modifiers.restrictRect({
+      //     restriction: {x:10, y:0, width:200, height:500},
+      //     endOnly: true
+      //   })
+      // ],
+      // enable autoScroll
+      autoScroll: true,
+      listeners: {
+        move(event) {
+          let container = document.getElementById("connections").getBoundingClientRect();
+          position.x += event.dx;
+          position.y += event.dy;
+          event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+          const willBeDeleted = event.target.getBoundingClientRect().x < 100;
+          event.target.style.opacity = willBeDeleted ? 0.5 : 1;
+          if (connections = components[event.target.dataset.id]) {
+            for (const name in connections.input) {
+              if (connectors = connections.input[name]) {
+                const target = event.target.querySelector(`[data-name="${name}"]`).getBoundingClientRect();
+                if (!Array.isArray(connectors)) {
+                  connectors = [connectors];
+                }
+                connectors.forEach(function(connector) {
+                  connector.setAttribute('x2', target.x - container.x + 8);
+                  connector.setAttribute('y2', target.y);
+                  if (willBeDeleted) {
+                    connector.setAttribute('display', 'none');
+                  } else {
+                    connector.removeAttribute('display');
+                  }
+                });
+              }
+            }
+            for (const name in connections.output) {
+              connections.output[name].forEach(function(connector) {
+                const target = event.target.querySelector(`[data-name="${name}"]`).getBoundingClientRect();
+                connector.setAttribute('x1', target.x - container.x + 8);
+                connector.setAttribute('y1', target.y);
+                if (willBeDeleted) {
+                  connector.setAttribute('display', 'none');
+                } else {
+                  connector.removeAttribute('display');
+                }
+              });
+            }
+          }
+        }
+      }
+    })
+    // This only gets called when we trigger it below using interact.start(...)
+    .on("move", function(event) {
+      const { currentTarget, interaction } = event;
+      let element = currentTarget;
+
+      if (actuallyDragging && interaction.pointerIsDown && !interaction.interacting()) {
+        // If we are dragging an item from the sidebar, its transform value will be ''
+        // We need to clone it, and then start moving the clone
+        if (currentTarget.style.transform === "") {
+          element = createElement(currentTarget);
+          const { offsetTop, offsetLeft } = currentTarget;
+          position.x = offsetLeft;
+          position.y = offsetTop;
+
+          // If we are moving an already existing item, we need to make sure
+          // the position object has the correct values before we start dragging it
+        } else {
+          const regex = /translate\(([\d]+)px, ([\d]+)px\)/i;
+          const transform = regex.exec(currentTarget.style.transform);
+
+          if (transform && transform.length > 1) {
+            position.x = Number(transform[1]);
+            position.y = Number(transform[2]);
+          }
+        }
+
+      // Start the drag event
+      interaction.start({ name: "drag" }, event.interactable, element);
+    }
+  }).on('dragend', function (event) {
+    if (event.rect.left < 100) {
+      removeComponent(event.target);
+    }
+    // no click event when creating a new object
+    if (event.target.dataset.new) {
+      event.target.removeAttribute('data-new');
+    } else { // prevent click events after drag
+      event.target.addEventListener('click', (event) => event.stopImmediatePropagation(), {capture: true, once: true});
+    }
+});
+function step() {
+    for (const [id, details] of Object.entries(components)) {
+      inputs = {};
+      for (const name in details.input) {
+        if (Array.isArray(details.input[name])) {
+          inputs[name] = details.input[name].some((input) => input.classList.contains('active') )
+        } else {
+          inputs[name] = details.input[name] && details.input[name].classList.contains('active');
+        }
+      }
+      const outputs = functions[details.type](inputs, details.element);
+      for (const name in outputs) {
+        details.output[name].forEach(function(connector) {
+          if (outputs[name]) {
+            connector.classList.add('active');
+          } else {
+            connector.classList.remove('active');
+          }
+        });
+      }
+    }
+   window.requestAnimationFrame(step);
+  }
+
+// 1) output == input
+// 2) not
+// 3) and
+// 4) or
+// 5) always on
+// 6) xor
+// 7) 3 input and
+// 8) 3 input or
+// 9) 3 input xor
+// 10) binary numbers?
+// 11) half adder
+// 12) full adder
+// 13) mux
+// 14) dmux
+// bonus levels - make OR w/ only x number of NANDs
+const levels = [
+  {
+    title: 'input to output',
+    description: 'Click on the ',
+    components:[],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input'}
+      ],
+      output:[
+        {x:700, y:200, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0], [0]],
+      [[1], [1]]
+    ]
+  },
+  {
+    title: 'NOT',
+    components:['not'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input'}
+      ],
+      output:[
+        {x:700, y:200, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0], [1]],
+      [[1], [0]]
+    ]
+  },
+  {
+    title: 'AND',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Fish'},
+        {x:200, y:300, name:'Chips'},
+      ],
+      output:[
+        {x:700, y:250, name:'Fish & Chips'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0]],
+      [[0,1], [0]],
+      [[1,0], [0]],
+      [[1,1], [1]]
+    ]
+  },
+  {
+    title: 'OR',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Apples'},
+        {x:200, y:300, name:'Bananas'},
+      ],
+      output:[
+        {x:700, y:250, name:'Apples OR Bananas'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0]],
+      [[0,1], [1]],
+      [[1,0], [1]],
+      [[1,1], [1]]
+    ]
+  },
+  {
+    title: 'always on',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'On OR Off'},
+      ],
+      output:[
+        {x:700, y:200, name:'Always ON'}
+      ],
+    },
+    truthTable:[
+      [[0], [1]],
+      [[1], [1]]
+    ]
+  },
+  {
+    title: 'B and not A',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input A'},
+        {x:200, y:300, name:'Input B'},
+      ],
+      output:[
+        {x:700, y:200, name:'Not A'},
+        {x:700, y:300, name:'B'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [1, 0]],
+      [[0,1], [1, 1]],
+      [[1,0], [0, 0]],
+      [[1,1], [0, 1]]
+    ]
+  },
+  {
+    title: 'B and not A - 1 output',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input A'},
+        {x:200, y:300, name:'Input B'},
+      ],
+      output:[
+        {x:700, y:250, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0]],
+      [[0,1], [1]],
+      [[1,0], [0]],
+      [[1,1], [0]]
+    ]
+  },
+  {
+    title: 'exclusive OR (XOR) - part 1',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input A'},
+        {x:200, y:300, name:'Input B'},
+      ],
+      output:[
+        {x:700, y:200, name:'B AND not A'},
+        {x:700, y:300, name:'A AND not B'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0, 0]],
+      [[0,1], [1, 0]],
+      [[1,0], [0, 1]],
+      [[1,1], [0, 0]]
+    ]
+  },
+  {
+    title: 'exclusive OR (XOR) ⭐',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input A'},
+        {x:200, y:300, name:'Input B'},
+      ],
+      output:[
+        {x:700, y:250, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0]],
+      [[0,1], [1]],
+      [[1,0], [1]],
+      [[1,1], [0]]
+    ]
+  },
+  {
+    title: '3 input OR',
+    components:['not', 'and', 'or', 'xor'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'Input A'},
+        {x:200, y:250, name:'Input B'},
+        {x:200, y:350, name:'Input C'}
+      ],
+      output:[
+        {x:700, y:250, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [1]],
+      [[0,1,0], [1]],
+      [[0,1,1], [1]],
+      [[1,0,0], [1]],
+      [[1,0,1], [1]],
+      [[1,1,0], [1]],
+      [[1,1,1], [1]]
+    ]
+  },
+  {
+    title: '3 input AND',
+    components:['not', 'and', 'or', 'xor'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'Input A'},
+        {x:200, y:250, name:'Input B'},
+        {x:200, y:350, name:'Input C'}
+      ],
+      output:[
+        {x:700, y:250, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [0]],
+      [[0,1,0], [0]],
+      [[0,1,1], [0]],
+      [[1,0,0], [0]],
+      [[1,0,1], [0]],
+      [[1,1,0], [0]],
+      [[1,1,1], [1]]
+    ]
+  },
+  {
+    title: 'Yummy detector ⭐',
+    components:['not', 'and3', 'or', 'xor'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'Fish'},
+        {x:200, y:250, name:'Chips'},
+        {x:200, y:350, name:'Icecream'},
+      ],
+      output:[
+        {x:700, y:250, name:'Yummy?'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [1]],
+      [[0,1,0], [0]],
+      [[0,1,1], [0]],
+      [[1,0,0], [0]],
+      [[1,0,1], [0]],
+      [[1,1,0], [1]],
+      [[1,1,1], [0]]
+    ]
+  },
+  {
+    title: '3 input XOR ⭐',
+    components:['not', 'and3', 'or', 'xor'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'Input A'},
+        {x:200, y:250, name:'Input B'},
+        {x:200, y:350, name:'Input C'}
+      ],
+      output:[
+        {x:700, y:250, name:'Output'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [1]],
+      [[0,1,0], [1]],
+      [[0,1,1], [0]],
+      [[1,0,0], [1]],
+      [[1,0,1], [0]],
+      [[1,1,0], [0]],
+      [[1,1,1], [1]]
+    ]
+  },
+  {
+    title: 'Half Adder ⭐',
+    components:['not', 'and3', 'or', 'xor'],
+    elements:{
+      toggle:[
+        {x:200, y:200, name:'Input A'},
+        {x:200, y:300, name:'Input B'}
+      ],
+      output:[
+        {x:700, y:300, name:'Carry'},
+        {x:700, y:200, name:'Sum'}
+      ],
+    },
+    truthTable:[
+      [[0,0], [0,0]],
+      [[0,1], [0,1]],
+      [[1,0], [0,1]],
+      [[1,1], [1,0]]
+    ]
+  },
+  {
+    title: 'Full Adder ⭐⭐',
+    components:['not', 'and', 'or', 'xor3', 'halfadder'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'Carry In'},
+        {x:200, y:250, name:'Input A'},
+        {x:200, y:350, name:'Input B'}
+      ],
+      output:[
+        {x:700, y:300, name:'Carry'},
+        {x:700, y:200, name:'Sum'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0,0]],
+      [[0,0,1], [0,1]],
+      [[0,1,0], [0,1]],
+      [[0,1,1], [1,0]],
+      [[1,0,0], [0,1]],
+      [[1,0,1], [1,0]],
+      [[1,1,0], [1,0]],
+      [[1,1,1], [1,1]],
+    ]
+  },
+  {
+    title: 'LCD setup',
+    components:[],
+    elements:{
+      toggle:[
+        {x:150, y:100, name:'0'},
+        {x:280, y:100, name:'1'},
+        {x:410, y:100, name:'2'},
+        {x:540, y:100, name:'3'},
+        {x:670, y:100, name:'4'},
+        {x:150, y:450, name:'5'},
+        {x:280, y:450, name:'6'},
+        {x:410, y:450, name:'7'},
+        {x:540, y:450, name:'8'},
+        {x:670, y:450, name:'9'}
+      ],
+      lcd7:[
+        {x:417, y:232, name:'', draggable:true},
+      ]
+    },
+    truthTable:[
+      [[1,0,0,0,0,0,0,0,0,0],[0]],
+      [[0,1,0,0,0,0,0,0,0,0],[1]],
+      [[0,0,1,0,0,0,0,0,0,0],[2]],
+      [[0,0,0,1,0,0,0,0,0,0],[3]],
+      [[0,0,0,0,1,0,0,0,0,0],[4]],
+      [[0,0,0,0,0,1,0,0,0,0],[5]],
+      [[0,0,0,0,0,0,1,0,0,0],[6]],
+      [[0,0,0,0,0,0,0,1,0,0],[7]],
+      [[0,0,0,0,0,0,0,0,1,0],[8]],
+      [[0,0,0,0,0,0,0,0,0,1],[9]]
+    ]
+  },
+  {
+    title: '1 bit binary LCD',
+    components:['and3','or','not'],
+    elements:{
+      toggle:[
+        {x:150, y:200, name:'Input'},
+      ],
+      lcd9:[
+        {x:417, y:232, name:'', draggable:true},
+      ]
+    },
+    truthTable:[
+      [[0],[0]],
+      [[1],[1]],
+    ]
+  },
+  {
+    title: '(secret) decoder',
+    components:['and','or','not'],
+    elements:{
+      toggle:[
+        {x:150, y:350, name:'In 2'},
+        {x:150, y:250, name:'In 1'},
+      ],
+      output:[
+        {x:700, y:150, name:'Out 0'},
+        {x:700, y:250, name:'Out 1'},
+        {x:700, y:350, name:'Out 2'},
+        {x:700, y:450, name:'Out 3'},
+      ]
+    },
+    truthTable:[
+      [[0,0],[1,0,0,0]],
+      [[0,1],[0,1,0,0]],
+      [[1,0],[0,0,1,0]],
+      [[1,1],[0,0,0,1]],
+    ]
+  },
+  {
+    title: '2 bit binary LCD',
+    components:['and','or','not', 'decoder2'],
+    elements:{
+      toggle:[
+        {x:150, y:300, name:'Input 2'},
+        {x:150, y:200, name:'Input 1'},
+      ],
+      lcd9:[
+        {x:600, y:220, name:'', draggable:true},
+      ]
+    },
+    truthTable:[
+      [[0,0],[0]],
+      [[0,1],[1]],
+      [[1,0],[2]],
+      [[1,1],[3]],
+    ]
+  },
+  {
+    title: 'demultiplexer (DMUX)',
+    components:['and3','or','not', 'decoder2'],
+    elements:{
+      toggle:[
+        {x:150, y:400, name:'On or Off'},
+        {x:150, y:300, name:'In 2'},
+        {x:150, y:200, name:'In 1'},
+      ],
+      output:[
+        {x:700, y:150, name:'Out 0'},
+        {x:700, y:250, name:'Out 1'},
+        {x:700, y:350, name:'Out 2'},
+        {x:700, y:450, name:'Out 3'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0],[0,0,0,0]],
+      [[0,0,1],[0,0,0,0]],
+      [[0,1,0],[0,0,0,0]],
+      [[0,1,1],[0,0,0,0]],
+      [[1,0,0],[1,0,0,0]],
+      [[1,0,1],[0,1,0,0]],
+      [[1,1,0],[0,0,1,0]],
+      [[1,1,1],[0,0,0,1]],
+    ]
+  },
+  {
+    title: '(more secret) decoder',
+    components:['not', 'dmux2'],
+    elements:{
+      toggle:[
+        {x:150, y:400, name:'In 4'},
+        {x:150, y:300, name:'In 2'},
+        {x:150, y:200, name:'In 1'},
+      ],
+      output:[
+        {x:450, y:150, name:'0'},
+        {x:550, y:150, name:'1'},
+        {x:650, y:150, name:'2'},
+        {x:750, y:150, name:'3'},
+        {x:450, y:450, name:'4'},
+        {x:550, y:450, name:'5'},
+        {x:650, y:450, name:'6'},
+        {x:750, y:450, name:'7'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0],[1,0,0,0,0,0,0,0]],
+      [[0,0,1],[0,1,0,0,0,0,0,0]],
+      [[0,1,0],[0,0,1,0,0,0,0,0]],
+      [[0,1,1],[0,0,0,1,0,0,0,0]],
+      [[1,0,0],[0,0,0,0,1,0,0,0]],
+      [[1,0,1],[0,0,0,0,0,1,0,0]],
+      [[1,1,0],[0,0,0,0,0,0,1,0]],
+      [[1,1,1],[0,0,0,0,0,0,0,1]],
+    ]
+  },
+  {
+    title: '3 bit binary LCD',
+    components:['decoder3'],
+    elements:{
+      toggle:[
+        {x:150, y:400, name:'Input 4'},
+        {x:150, y:300, name:'Input 2'},
+        {x:150, y:200, name:'Input 1'},
+      ],
+      lcd9:[
+        {x:600, y:270, name:'', draggable:true},
+      ]
+    },
+    truthTable:[
+      [[0,0,0],[0]],
+      [[0,0,1],[1]],
+      [[0,1,0],[2]],
+      [[0,1,1],[3]],
+      [[1,0,0],[4]],
+      [[1,0,1],[5]],
+      [[1,1,0],[6]],
+      [[1,1,1],[7]],
+    ]
+  },
+  {
+    title: 'more DMUX',
+    components:['and', 'or', 'not', 'dmux2', 'decoder3'],
+    elements:{
+      toggle:[
+        {x:150, y:500, name:'On or Off'},
+        {x:150, y:360, name:'In 4'},
+        {x:150, y:280, name:'In 2'},
+        {x:150, y:200, name:'In 1'},
+      ],
+      output:[
+        {x:400, y:150, name:'0'},
+        {x:500, y:150, name:'1'},
+        {x:600, y:150, name:'2'},
+        {x:700, y:150, name:'3'},
+        {x:400, y:550, name:'4'},
+        {x:500, y:550, name:'5'},
+        {x:600, y:550, name:'6'},
+        {x:700, y:550, name:'7'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0],[0,0,0,0,0,0,0,0]],
+      [[0,0,0,1],[0,0,0,0,0,0,0,0]],
+      [[0,0,1,0],[0,0,0,0,0,0,0,0]],
+      [[0,0,1,1],[0,0,0,0,0,0,0,0]],
+      [[0,1,0,0],[0,0,0,0,0,0,0,0]],
+      [[0,1,0,1],[0,0,0,0,0,0,0,0]],
+      [[0,1,1,0],[0,0,0,0,0,0,0,0]],
+      [[0,1,1,1],[0,0,0,0,0,0,0,0]],
+      [[1,0,0,0],[1,0,0,0,0,0,0,0]],
+      [[1,0,0,1],[0,1,0,0,0,0,0,0]],
+      [[1,0,1,0],[0,0,1,0,0,0,0,0]],
+      [[1,0,1,1],[0,0,0,1,0,0,0,0]],
+      [[1,1,0,0],[0,0,0,0,1,0,0,0]],
+      [[1,1,0,1],[0,0,0,0,0,1,0,0]],
+      [[1,1,1,0],[0,0,0,0,0,0,1,0]],
+      [[1,1,1,1],[0,0,0,0,0,0,0,1]],
+    ]
+  },
+  {
+    title: '(most secret) decoder',
+    components:['not', 'dmux3'],
+    elements:{
+      toggle:[
+        {x:150, y:500, name:'In 8'},
+        {x:150, y:400, name:'In 4'},
+        {x:150, y:300, name:'In 2'},
+        {x:150, y:200, name:'In 1'},
+      ],
+      output:[
+        {x:370, y:80, name:'0'},
+        {x:440, y:80, name:'1'},
+        {x:510, y:80, name:'2'},
+        {x:580, y:80, name:'3'},
+        {x:370, y:160, name:'4'},
+        {x:440, y:160, name:'5'},
+        {x:510, y:160, name:'6'},
+        {x:580, y:160, name:'7'},
+        {x:370, y:520, name:'8'},
+        {x:440, y:520, name:'9'},
+        {x:510, y:520, name:'10'},
+        {x:580, y:520, name:'11'},
+        {x:370, y:590, name:'12'},
+        {x:440, y:590, name:'13'},
+        {x:510, y:590, name:'14'},
+        {x:580, y:590, name:'15'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+      [[0,0,0,1],[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+      [[0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0]],
+      [[0,0,1,1],[0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0]],
+      [[0,1,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0]],
+      [[0,1,0,1],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0]],
+      [[0,1,1,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0]],
+      [[0,1,1,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0]],
+      [[1,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]],
+      [[1,0,0,1],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0]],
+      [[1,0,1,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]],
+      [[1,0,1,1],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0]],
+      [[1,1,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0]],
+      [[1,1,0,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0]],
+      [[1,1,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]],
+      [[1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]],
+    ]
+  },
+  {
+    title: '4 bit binary LCD',
+    components:['and3','or','not', 'decoder4'],
+    elements:{
+      toggle:[
+        {x:150, y:400, name:'Input 8'},
+        {x:150, y:300, name:'Input 4'},
+        {x:150, y:200, name:'Input 2'},
+        {x:150, y:100, name:'Input 1'},
+      ],
+      lcd9:[
+        {x:600, y:270, name:'', draggable:true},
+        {x:700, y:270, name:'', draggable:true},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0],[0,0]],
+      [[0,0,0,1],[0,1]],
+      [[0,0,1,0],[0,2]],
+      [[0,0,1,1],[0,3]],
+      [[0,1,0,0],[0,4]],
+      [[0,1,0,1],[0,5]],
+      [[0,1,1,0],[0,6]],
+      [[0,1,1,1],[0,7]],
+      [[1,0,0,0],[0,8]],
+      [[1,0,0,1],[0,9]],
+      [[1,0,1,0],[1,0]],
+      [[1,0,1,1],[1,1]],
+      [[1,1,0,0],[1,2]],
+      [[1,1,0,1],[1,3]],
+      [[1,1,1,0],[1,4]],
+      [[1,1,1,1],[1,5]],
+    ]
+  },
+  {
+    title: '4 bit adder',
+    components:['halfadder','fulladder', 'lcd4'],
+    elements:{
+      toggle:[
+        {x:150, y:400, name:'A 8'},
+        {x:150, y:300, name:'A 4'},
+        {x:150, y:200, name:'A 2'},
+        {x:150, y:100, name:'A 1'},
+        {x:280, y:400, name:'B 8'},
+        {x:280, y:300, name:'B 4'},
+        {x:280, y:200, name:'B 2'},
+        {x:280, y:100, name:'B 1'},
+      ],
+      lcd4:[
+        {x:650, y:240, name:'sum'},
+      ],
+      output:[
+        {x:660, y:400, name:'overflow'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0,0,0,0,0],[0,0]],
+      [[0,0,0,1,1,0,1,1],[12,0]],
+      [[0,0,1,1,1,1,0,0],[15,0]],
+      [[0,1,1,0,0,0,0,0],[6,0]],
+      [[0,0,0,1,0,1,0,1],[6,0]],
+      [[1,0,0,1,0,1,0,0],[13,0]],
+      [[0,0,0,1,0,0,0,0],[1,0]],
+      [[1,0,1,1,0,0,1,1],[14,0]],
+      [[1,1,0,1,0,0,0,0],[13,0]],
+      [[0,1,0,0,0,1,0,1],[9,0]],
+      [[0,0,1,1,1,0,0,0],[11,0]],
+      [[0,1,0,0,1,1,1,1],[3,1]],
+      [[1,1,0,0,1,1,0,0],[8,1]],
+      [[1,0,0,0,1,1,0,1],[5,1]],
+      [[1,0,0,0,1,0,0,0],[0,1]],
+      [[1,0,1,1,1,1,1,0],[9,1]],
+    ]
+  },
+]
+const levelNumber = parseInt((new URLSearchParams(window.location.search)).get('l') || 0);
+document.getElementById('next-button').href = `?l=${levelNumber + 1}`;
+const level = levels[levelNumber];
+const truthTable = {inputs:[], outputs:[]}
+document.getElementById('level-title').innerText = `Level ${levelNumber.toString(2)} - ${level.title}`;
+level.components.forEach((component) => {
+  document.querySelector(`.draggable[data-name=${component}]`).classList.remove('hidden');
+});
+const counter = {};
+for (const type in level.elements) {
+  const inputOrOutput = (type == 'toggle' ? 'input' : 'output');
+  counter[inputOrOutput] = counter[inputOrOutput] || 0;
+  array = truthTable[`${inputOrOutput}s`];
+  level.elements[type].forEach((details) => {
+    array.push(details.name);
+    details.id = inputOrOutput + '-' + counter[inputOrOutput];
+    counter[inputOrOutput]++;
+    createElement(document.querySelector(`.draggable[data-name=${type}]`), details);
+    const label = document.createElement('label');
+    label.innerText = details.name;
+    label.style.left = details.x + 20;
+    label.style.top = details.y - (type == 'output' ? 10 : 5);
+    document.getElementById("content").appendChild(label);
+  });
+};
+document.getElementById("truth-table-inputs").colSpan = truthTable.inputs.length;
+document.getElementById("truth-table-outputs").colSpan = truthTable.outputs.length;
+const table = document.getElementById("truth-table");
+const row = document.createElement('tr');
+truthTable.inputs.forEach((text) => {
+  const cell = document.createElement('th');
+  cell.innerText = text;
+  cell.style.background = '#1F1';
+  row.appendChild(cell);
+});
+truthTable.outputs.forEach((text) => {
+  const cell = document.createElement('th');
+  cell.innerText = text;
+  cell.style.background = '#F11';
+  row.appendChild(cell);
+});
+table.appendChild(row);
+level.truthTable.forEach((tableRow, rowNum) => {
+  const row = document.createElement('tr');
+  row.className = 'clickable';
+  row.id = `table-row${rowNum}`;
+  tableRow.forEach((inputOrOutput, i) => {
+    inputOrOutput.forEach((oneOrZero, j) => {
+      const cell = document.createElement('td');
+      cell.innerText = oneOrZero;
+      if (j == 0 && i == 1) {
+        cell.style.borderLeft = '2px solid #444';
+      }
+      if (i == 1) {
+        cell.id = `result-${rowNum}-${j}`
+      }
+      if (rowNum % 2 == 0) {
+        bgColor = (i == 0 ? '#CFC' : '#FCC')
+      } else {
+        bgColor = (i == 0 ? '#AFA' : '#FAA')
+      }
+      cell.style.background = bgColor;
+      row.appendChild(cell);
+      table.appendChild(row);
+    });
+  });
+});
+
+var noErrors = false;
+document.getElementById('truth-table').addEventListener('click', function (e) {
+  removeClassFromAll('active', 'tr.active');
+  toggleInputsToIndex(e.target.closest('tr.clickable').id.slice(9));
+})
+document.getElementById('check-button').addEventListener('click', function () {
+  removeClassFromAll('active', 'tr.active');
+  removeClassFromAll('wrong', '.wrong');
+  noErrors = true;
+  checkTruthTableRow();
+})
+
+function removeClassFromAll(klass, query) {
+  document.querySelectorAll(query).forEach(obj=>obj.classList.remove(klass));
+}
+
+function checkTruthTableRow(index) {
+  index = index || 0;
+  const prevRow = index - 1;
+  if (index > 0) {
+    level.truthTable[prevRow][1].forEach((value, i) => {
+      outputElement = document.getElementById(`output-${i}`);
+      if (outputElement.dataset.name == 'output') {
+        result = outputElement.classList.contains('active') ? 1 : 0;
+      } else {
+        result = numberFromLCD(outputElement);
+      }
+      if (result != value) {
+        noErrors = false;
+        document.getElementById(`result-${prevRow}-${i}`).classList.add('wrong');
+      }
+    });
+  }
+  if (level.truthTable.length <= index) {
+    if (noErrors) {
+      alert('Awesome job!')
+      document.getElementById('next-button').classList.remove('hidden');
+    }
+    return
+  }
+  if (prevRow >= 0) {
+    document.getElementById(`table-row${prevRow}`).classList.remove('active');
+  }
+  toggleInputsToIndex(index);
+  setTimeout(checkTruthTableRow, 150, index + 1)
+}
+function  numberFromLCD(lcd) {
+  if (lcd.dataset.name == 'lcd4') {
+    const ones = Number(numberFromSectionOfLCD(lcd.querySelector('.ones')));
+    return ones + 10 * Number(numberFromSectionOfLCD(lcd.querySelector('.tens')));
+  } else {
+    return numberFromSectionOfLCD(lcd.querySelector('.lcd'))
+  }
+}
+function  numberFromSectionOfLCD(lcd) {
+  const array = [...lcd.querySelectorAll('path')].filter(el => el.classList.contains('active')).map(el => el.dataset.name).sort()
+  switch (array.join()) {
+    case 'b,bl,br,t,tl,tr':
+      return '0'
+    case 'br,tr':
+      return '1'
+    case 'b,bl,m,t,tr':
+      return '2'
+    case 'b,br,m,t,tr':
+      return '3'
+    case 'br,m,tl,tr':
+      return '4'
+    case 'b,br,m,t,tl':
+      return '5'
+    case 'b,bl,br,m,t,tl':
+      return '6'
+    case 'br,t,tr':
+      return '7'
+    case 'b,bl,br,m,t,tl,tr':
+      return '8'
+    case 'b,br,m,t,tl,tr':
+      return '9'
+    default:
+      return null
+  }
+}
+function toggleInputsToIndex(index) {
+  document.getElementById(`table-row${index}`).classList.add('active');
+  // set toggle inputs
+  level.truthTable[index][0].forEach((value, i) => {
+    const input = document.getElementById(`input-${i}`);
+    if (value == 1) {
+      input.classList.add('active');
+    } else {
+      input.classList.remove('active');
+    }
+  });
+}
+
+function createElement(currentTarget, details) {
+  const componentID = nextComponentID.toString();
+  components[componentID] = JSON.parse(JSON.stringify(componentTemplates[currentTarget.dataset.name]));
+  nextComponentID++;
+
+  element = currentTarget.cloneNode(true);
+  components[componentID].element = element;
+
+  // Add absolute positioning so that cloned object lives
+  // right on top of the original object
+  element.style.position = "absolute";
+  element.dataset.id = componentID;
+  if (details) {
+    element.style.left = details.x;
+    element.style.top = details.y;
+    if (details.draggable) {
+      element.style.transform = 'none';
+    } else {
+      element.classList.remove("draggable");
+    }
+    element.classList.remove("hidden");
+    element.id = details.id;
+  } else {
+    element.style.left = 0;
+    element.style.top = 0;
+    element.classList.add("removable");
+    element.dataset.new = 'yes';
+  }
+
+  // Add the cloned object to the document
+  document.getElementById("content").appendChild(element);
+
+  return element
+}
+function dragMoveListener (event) {
+  var target = event.target
+  // keep the dragged position in the data-x/data-y attributes
+  var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+  // translate the element
+  target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
+
+  // update the posiion attributes
+  target.setAttribute('data-x', x)
+  target.setAttribute('data-y', y)
+}
+
+window.requestAnimationFrame(step);
+  </script>
+  </body>
+  </html>
