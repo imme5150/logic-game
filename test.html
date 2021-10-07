@@ -964,14 +964,17 @@
     actuallyDragging = false;
   });
   window.addEventListener('contextmenu', function (e) {
-    e.preventDefault()
     if (activeConnection){
+      e.preventDefault();
       document.getElementById("connections").lastElementChild.remove();
       activeConnection.startNode.classList.remove('addingLine');
       document.getElementById("connections").classList.add('notAddingLine');
       activeConnection = false;
     } else {
-      removeComponent(e.target.closest(".removable"));
+      if (removableElement = e.target.closest(".removable") ) {
+        e.preventDefault();
+        removeComponent(removableElement);
+      }
     }
   });
   window.addEventListener('mousemove', function (e) {
