@@ -967,7 +967,7 @@
     e.preventDefault()
     if (activeConnection){
       document.getElementById("connections").lastElementChild.remove();
-      activeConnection.startNode.classList.remove('active');
+      activeConnection.startNode.classList.remove('addingLine');
       document.getElementById("connections").classList.add('notAddingLine');
       activeConnection = false;
     } else {
@@ -1154,12 +1154,12 @@ function step() {
       for (const name in outputs) {
         const output = details.element.querySelector(`[data-name="${name}"]`);
         if (outputs[name]) {
-          output.classList.add('active');
+          output && output.classList.add('active');
           details.output[name].forEach(function(connector) {
             connector.classList.add('active');
           });
         } else {
-          output.classList.remove('active');
+          output && output.classList.remove('active');
           details.output[name].forEach(function(connector) {
             connector.classList.remove('active');
           });
