@@ -986,6 +986,25 @@
         .lastElementChild.setAttribute('y2',e.clientY);
     }
   });
+  document.addEventListener('keydown', function (e) {
+    if (e.keyCode >= 48 && e.keyCode <= 57) {
+      toggleInputsToIndex(e.key);
+    } else if (e.key === 'ArrowDown') {
+      if (activeRow = document.querySelector('tr.active')) {
+        toggleInputsToIndex(Number(activeRow.id.slice(9)) + 1);
+      } else {
+        toggleInputsToIndex('0');
+      }
+    } else if (e.key === 'ArrowUp') {
+      if (activeRow = document.querySelector('tr.active')) {
+        var nextRowIndex = Number(activeRow.id.slice(9)) - 1;
+      }
+      if (nextRowIndex === null || nextRowIndex < 0) {
+        nextRowIndex = document.querySelector('tr.clickable:last-child').id.slice(9)
+      }
+      toggleInputsToIndex(nextRowIndex);
+    }
+  });
 function removeComponent(component) {
   if (!component) return
   const componentID = component.dataset.id;
@@ -1899,7 +1918,6 @@ level.truthTable.forEach((tableRow, rowNum) => {
 
 var noErrors = false;
 document.getElementById('truth-table').addEventListener('click', function (e) {
-  removeClassFromAll('active', 'tr.active');
   toggleInputsToIndex(e.target.closest('tr.clickable').id.slice(9));
 })
 document.getElementById('check-button').addEventListener('click', function () {
@@ -1940,7 +1958,7 @@ function checkTruthTableRow(index) {
   if (prevRow >= 0) {
     document.getElementById(`table-row${prevRow}`).classList.remove('active');
   }
-  toggleInputsToIndex(index);
+  toggleInputsToIndex(index, 'skipClearingActive');
   setTimeout(checkTruthTableRow, 150, index + 1)
 }
 function  numberFromLCD(lcd) {
@@ -1978,8 +1996,16 @@ function  numberFromSectionOfLCD(lcd) {
       return null
   }
 }
-function toggleInputsToIndex(index) {
-  document.getElementById(`table-row${index}`).classList.add('active');
+function toggleInputsToIndex(index, skipClearingActive) {
+  if (!skipClearingActive) {
+    removeClassFromAll('active', 'tr.active');
+  }
+  var newActiveRow = document.getElementById(`table-row${index}`);
+  if (!newActiveRow) {
+    index = '0';
+    newActiveRow = document.getElementById(`table-row${index}`);
+  }
+  newActiveRow.classList.add('active');
   // set toggle inputs
   level.truthTable[index][0].forEach((value, i) => {
     const input = document.getElementById(`input-${i}`);
