@@ -698,6 +698,7 @@
   <script src="interact.min.js"></script>
   <script type="text/javascript">
   var components = {};
+  var deletedComponents = [];
   var nextComponentID = 0;
   var componentTemplates = {
     lcd7: {type:'lcd7', input:{t:[], tl:[], tr:[], m:[], bl:[], b:[], br:[]}, output:{}},
@@ -987,6 +988,22 @@
     }
   });
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'z' && e.ctrlKey) {
+      if (component = deletedComponents.pop()) {
+        components[component.id] = component;
+        document.getElementById("content").appendChild(component.element);
+        for (const name in component.input) {
+          if (connector = component.input[name]) {
+            document.getElementById("connections").appendChild(connector);
+          }
+        }
+        for (const name in component.output) {
+          for (const index in component.output[name]) {
+            document.getElementById("connections").appendChild(component.output[name][index]);
+          }
+        }
+      }
+    }
     if (e.keyCode >= 48 && e.keyCode <= 57) {
       toggleInputsToIndex(e.key);
     } else if (e.key === 'ArrowDown') {
@@ -1022,6 +1039,8 @@ function removeComponent(component) {
         connector.remove();
       });
     }
+    components[componentID].id = componentID;
+    deletedComponents.push(components[componentID]);
     delete components[componentID];
   } else { // not actually a component, should be a line
     for (const componentID in components) {
