@@ -936,7 +936,7 @@
       let mouse_x = e.clientX - container.left;
       let mouse_y = e.clientY;
       drawLine(currentSelectionX + 8, currentSelectionY, mouse_x, mouse_y);
-    } else if((sw = e.target.closest('.switch'))) {
+    } else if(!window.checkingRows && (sw = e.target.closest('.switch'))) {
       if (sw.classList.contains('active')) {
         sw.classList.remove('active');
       } else {
@@ -1003,23 +1003,26 @@
           }
         }
       }
-    }
-    if (e.keyCode >= 48 && e.keyCode <= 57) {
-      toggleInputsToIndex(e.key);
-    } else if (e.key === 'ArrowDown') {
-      if (activeRow = document.querySelector('tr.active')) {
-        toggleInputsToIndex(Number(activeRow.id.slice(9)) + 1);
-      } else {
-        toggleInputsToIndex('0');
+    } else if (!window.checkingRows) {
+      if (e.key === 'Enter' || e.key === 'c') {
+        checkAllRows();
+      } else if (e.keyCode >= 48 && e.keyCode <= 57) {
+        toggleInputsToIndex(e.key);
+      } else if (e.key === 'ArrowDown') {
+        if (activeRow = document.querySelector('tr.active')) {
+          toggleInputsToIndex(Number(activeRow.id.slice(9)) + 1);
+        } else {
+          toggleInputsToIndex('0');
+        }
+      } else if (e.key === 'ArrowUp') {
+        if (activeRow = document.querySelector('tr.active')) {
+          var nextRowIndex = Number(activeRow.id.slice(9)) - 1;
+        }
+        if (nextRowIndex === null || nextRowIndex < 0) {
+          nextRowIndex = document.querySelector('tr.clickable:last-child').id.slice(9)
+        }
+        toggleInputsToIndex(nextRowIndex);
       }
-    } else if (e.key === 'ArrowUp') {
-      if (activeRow = document.querySelector('tr.active')) {
-        var nextRowIndex = Number(activeRow.id.slice(9)) - 1;
-      }
-      if (nextRowIndex === null || nextRowIndex < 0) {
-        nextRowIndex = document.querySelector('tr.clickable:last-child').id.slice(9)
-      }
-      toggleInputsToIndex(nextRowIndex);
     }
   });
 function removeComponent(component) {
@@ -1937,14 +1940,22 @@ level.truthTable.forEach((tableRow, rowNum) => {
 
 var noErrors = false;
 document.getElementById('truth-table').addEventListener('click', function (e) {
+  if (window.checkingRows) {
+    return
+  }
   toggleInputsToIndex(e.target.closest('tr.clickable').id.slice(9));
 })
-document.getElementById('check-button').addEventListener('click', function () {
+document.getElementById('check-button').addEventListener('click', checkAllRows);
+function checkAllRows() {
+  if (window.checkingRows) {
+    return
+  }
+  window.checkingRows = true;
   removeClassFromAll('active', 'tr.active');
   removeClassFromAll('wrong', '.wrong');
   noErrors = true;
   checkTruthTableRow();
-})
+}
 
 function removeClassFromAll(klass, query) {
   document.querySelectorAll(query).forEach(obj=>obj.classList.remove(klass));
@@ -1972,6 +1983,7 @@ function checkTruthTableRow(index) {
       alert('Awesome job!')
       document.getElementById('next-button').classList.remove('hidden');
     }
+    window.checkingRows = false;
     return
   }
   if (prevRow >= 0) {
