@@ -27,6 +27,9 @@
     circle.active {
       fill: #00F;
     }
+    circle.input.connected, circle.output.connected {
+      stroke-width: 2% !important;
+    }
     circle.input.addingLine, circle.output.addingLine {
       stroke-width: 2% !important;
       stroke: #000 !important;
@@ -379,6 +382,78 @@
           </g>
         </svg>
       </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="flipFlop" data-value="0">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="set0" cx="460" cy="563" r="8" class="input connection">
+              <title>Store 0</title>
+            </circle>
+            <circle data-name="set1" cx="460" cy="586" r="8" class="input connection">
+              <title>Store 1</title>
+            </circle>
+            <circle data-name="memory" cx="544" cy="575" r="8" class="output connection">
+              <title>stored value</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="485" y="570">Flip</text>
+            <text x="482" y="590">Flop</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="dFlipFlop" data-value="0">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <g transform="translate(-445,-530)">
+            <circle data-name="data" cx="460" cy="575" r="8" class="input connection">
+              <title>data</title>
+            </circle>
+            <circle data-name="set" cx="482" cy="605" r="8" class="input connection">
+              <title>store me</title>
+            </circle>
+            <circle data-name="memory" cx="544" cy="575" r="8" class="output connection">
+              <title>stored value</title>
+            </circle>
+            <rect width="84" height="60" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="482" y="562">Data</text>
+            <text x="485" y="580">Flip</text>
+            <text x="482" y="597">Flop</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="register">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="93">
+          <g transform="translate(-445,-530)">
+            <circle data-name="in1" cx="460" cy="552" r="8" class="input connection">
+              <title>in 1</title>
+            </circle>
+            <circle data-name="in2" cx="460" cy="569" r="8" class="input connection">
+              <title>in 2</title>
+            </circle>
+            <circle data-name="in4" cx="460" cy="586" r="8" class="input connection">
+              <title>in 4</title>
+            </circle>
+            <circle data-name="in8" cx="460" cy="603" r="8" class="input connection">
+              <title>in 8</title>
+            </circle>
+            <circle data-name="set" cx="502" cy="611" r="8" class="input connection">
+              <title>store me</title>
+            </circle>
+            <circle data-name="memory1" cx="544" cy="552" r="8" class="output connection">
+              <title>memory 1</title>
+            </circle>
+            <circle data-name="memory2" cx="544" cy="569" r="8" class="output connection">
+              <title>memory 2</title>
+            </circle>
+            <circle data-name="memory4" cx="544" cy="586" r="8" class="output connection">
+              <title>memory 4</title>
+            </circle>
+            <circle data-name="memory8" cx="544" cy="603" r="8" class="output connection">
+              <title>memory 8</title>
+            </circle>
+            <rect width="84" height="66" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
+            <text x="464" y="583">Register</text>
+          </g>
+        </svg>
+      </div>
       <div class="hidden draggable component" style="width:min-content" data-name="decoder3">
         <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
           <g transform="translate(-445,-530)">
@@ -718,8 +793,11 @@
     decoder4: {type:'decoder4', input:{in1:null, in2:null, in4:null, in8:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[], out8:[], out9:[], out10:[], out11:[], out12:[], out13:[], out14:[], out15:[]}},
     dmux2: {type:'dmux2', input:{in1:null, in2:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
     dmux3: {type:'dmux3', input:{in1:null, in2:null, in4:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
+    flipFlop: {type:'flipFlop', input:{set0:null, set1:null}, output:{memory:[]}},
+    dFlipFlop: {type:'dFlipFlop', input:{data:null, set:null}, output:{memory:[]}},
+    register: {type:'register', input:{in1:null, in2:null, in4:null, in8:null, set:null}, output:{memory1:[],memory2:[],memory4:[],memory8:[]}},
     toggle: {type:'toggle', output:{out:[]}},
-    output: {type:'output', input:{in:null}, output:{out:[]}},
+    output: {type:'output', input:{in:null}, outpregisterut:{out:[]}},
     not: {type:'not', input:{in:null}, output:{out:[]}}
   }
   function decoder(inputs) {
@@ -796,6 +874,32 @@
     return results
   }
   const functions = {
+    register: function (inputs, element) {
+      memory = {};
+      for (var name in inputs) {
+        if (name == 'set') { break; }
+        number = name.slice(2);
+        if (inputs.set) {
+          element.dataset[`value${number}`] = inputs[name] ? '1' : '0';
+        }
+        memory[`memory${number}`] = element.dataset[`value${number}`] == '1';
+      }
+      return memory
+    },
+    flipFlop: function (inputs, element) {
+      if (inputs.set0) {
+        element.dataset.value = '0';
+      } else if (inputs.set1) {
+        element.dataset.value = '1';
+      }
+      return {memory:element.dataset.value == '1'}
+    },
+    dFlipFlop: function (inputs, element) {
+      if (inputs.set) {
+        element.dataset.value = inputs.data ? '1' : '0';
+      }
+      return {memory:element.dataset.value == '1'}
+    },
     dmux2: dmux,
     dmux3: dmux,
     decoder2: decoder,
@@ -889,6 +993,7 @@
     const targetConnector = e.target.nodeName == 'circle' && e.target.classList.contains('connection');
     if (activeConnection) {
       if (targetConnector && !e.target.classList.contains(activeConnection.startType)) {
+        e.target.classList.add('connected');
         let container = document.getElementById("connections").getBoundingClientRect();
         targetX = e.target.getBoundingClientRect().x - container.left + 8;
         targetY = e.target.getBoundingClientRect().y;
@@ -907,18 +1012,7 @@
           activeLine.setAttribute('x2', targetX);
           activeLine.setAttribute('y2', targetY);
         }
-        components[source.closest('.component').dataset.id].output[source.dataset.name].push(activeLine);
-        const targetInputs = components[target.closest('.component').dataset.id].input;
-        // Does this target allow multiple inputs?
-        if (Array.isArray(targetInputs[target.dataset.name])) {
-          targetInputs[target.dataset.name].push(activeLine)
-        } else { // only 1 input
-          if (prevInput = targetInputs[target.dataset.name]) {
-            prevInput.remove();
-            // TODO - remove references to it
-          }
-          targetInputs[target.dataset.name] = activeLine;
-        }
+        addConnectionToComponents(source, target, activeLine);
       } else { // not a propper connection
         return // ignore this click
       }
@@ -930,12 +1024,7 @@
       document.getElementById("connections").classList.remove('notAddingLine');
       activeConnection = {startNode:e.target};
       activeConnection.startType = e.target.classList.contains('input') ? 'input' : 'output';
-      let container = document.getElementById("connections").getBoundingClientRect();
-      currentSelectionX = e.target.getBoundingClientRect().x - container.left;
-      currentSelectionY = e.target.getBoundingClientRect().y;
-      let mouse_x = e.clientX - container.left;
-      let mouse_y = e.clientY;
-      drawLine(currentSelectionX + 8, currentSelectionY, mouse_x, mouse_y);
+      drawConnectionLine(e.target, {x:e.clientX, y:e.clientY})
     } else if(!window.checkingRows && (sw = e.target.closest('.switch'))) {
       if (sw.classList.contains('active')) {
         sw.classList.remove('active');
@@ -946,7 +1035,7 @@
       const inputs = level.elements.toggle;
       removeClassFromAll('active', 'tr.active');
       // This shortcut only works if we have all possible truth values
-      if (2 ** (inputs.length) == level.truthTable.length) {
+      if (!level.noAutosetTruthTableRow && 2 ** (inputs.length) == level.truthTable.length) {
         inputs.forEach((details, index) => {
           if (document.getElementById(`input-${index}`).classList.contains('active')) {
             rowNum += 2 ** (inputs.length - index - 1);
@@ -1025,6 +1114,20 @@
       }
     }
   });
+  function addConnectionToComponents(source, target, line) {
+    components[source.closest('.component').dataset.id].output[source.dataset.name].push(line);
+    const targetInputs = components[target.closest('.component').dataset.id].input;
+    // Does this target allow multiple inputs?
+    if (Array.isArray(targetInputs[target.dataset.name])) {
+      targetInputs[target.dataset.name].push(line)
+    } else { // only 1 input
+      if (prevInput = targetInputs[target.dataset.name]) {
+        prevInput.remove();
+        // TODO - remove references to it
+      }
+      targetInputs[target.dataset.name] = line;
+    }
+  }
 function removeComponent(component) {
   if (!component) return
   const componentID = component.dataset.id;
@@ -1066,6 +1169,19 @@ function removeComponent(component) {
   }
   component.remove();
 }
+function drawConnectionLine(source, target) {
+  const container = document.getElementById("connections").getBoundingClientRect();
+  const x1 = source.getBoundingClientRect().x + 8;
+  const y1 = source.getBoundingClientRect().y;
+  if (target.x && target.y) {
+    x2 = target.x;
+    y2 = target.y;
+  } else {
+    x2 = target.getBoundingClientRect().x + 8;
+    y2 = target.getBoundingClientRect().y;
+  }
+  return drawLine(x1 - container.left, y1, x2 - container.left, y2);
+}
 // Draw an SVG line
 function drawLine(x1, y1, x2, y2) {
     var newLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -1075,8 +1191,8 @@ function drawLine(x1, y1, x2, y2) {
     newLine.setAttribute('y2', y2);
     newLine.setAttribute('stroke-width', '4');
     newLine.setAttribute('class', 'removable');
-    document.getElementById('connections')
-            .appendChild(newLine);
+    document.getElementById('connections').appendChild(newLine);
+    return newLine
 }
   // This stores the position of the current item being dragged
   const position = { x: 0, y: 0 };
@@ -1871,10 +1987,11 @@ const levels = [
   },
   {
     title: 'Flip-flop',
+    noAutosetTruthTableRow:true,
     components:[],
     elements:{
       toggle:[
-        {x:150, y:200, name:'Set to 0'},
+        {x:150, y:200, name:'Set to 0', isActive:true},
         {x:150, y:300, name:'Set to 1'},
       ],
       not:[
@@ -1889,11 +2006,91 @@ const levels = [
         {x:760, y:200, name:'output'},
       ]
     },
+    connections:[
+      ['component-0', 'out', 'output-0', 'in'],
+      ['component-0', 'out', 'component-3', 'a'],
+      ['component-3', 'out', 'component-1', 'in'],
+      ['component-1', 'out', 'component-2', 'b'],
+      ['component-2', 'out', 'component-0', 'in'],
+      ['input-0', 'out', 'component-2', 'a'],
+      ['input-1', 'out', 'component-3', 'b'],
+    ],
     truthTable:[
       [[1,0],[0]],
       [[0,0],[0]],
       [[0,1],[1]],
       [[0,0],[1]],
+    ]
+  },
+  {
+    title: 'Data Flip-flop',
+    noAutosetTruthTableRow:true,
+    components:['and', 'or', 'not', 'flipFlop'],
+    elements:{
+      toggle:[
+        {x:150, y:200, name:'What to Store'},
+        {x:150, y:300, name:'Store Me'},
+      ],
+      output:[
+        {x:760, y:200, name:'Memory'},
+      ]
+    },
+    truthTable:[
+      [[0,1],[0]],
+      [[0,0],[0]],
+      [[1,0],[0]],
+      [[1,1],[1]],
+      [[0,0],[1]],
+      [[1,0],[1]],
+      [[0,1],[0]],
+    ]
+  },
+  {
+    title: 'Store a number',
+    noAutosetTruthTableRow:true,
+    components:['and', 'or', 'not', 'dFlipFlop'],
+    elements:{
+      toggle:[
+        {x:150, y:370, name:'in 8'},
+        {x:150, y:280, name:'in 4'},
+        {x:150, y:190, name:'in 2'},
+        {x:150, y:100, name:'in 1'},
+        {x:150, y:500, name:'Store Me'},
+      ],
+      lcd4:[
+        {x:760, y:200, name:'Memory'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0,1],[0]],
+      [[1,1,1,1,1],[15]],
+      [[1,1,1,1,0],[15]],
+      [[1,0,1,0,0],[15]],
+      [[1,0,0,1,1],[9]],
+      [[1,0,0,1,0],[9]],
+      [[0,1,1,1,0],[9]],
+      [[0,1,1,1,1],[7]],
+    ]
+  },
+  {
+    title: 'Store 4 numbers',
+    components:['lcd4', 'dmux2', 'register'],
+    elements:{
+      toggle:[
+        {x:150, y:310, name:'in 8'},
+        {x:150, y:240, name:'in 4'},
+        {x:150, y:170, name:'in 2'},
+        {x:150, y:100, name:'in 1'},
+        {x:150, y:570, name:'which 2'},
+        {x:150, y:500, name:'which 1'},
+        {x:350, y:570, name:'Save'},
+      ],
+      lcd4:[
+        {x:640, y:200, name:'output'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0,0,0,1],[0]],
     ]
   },
 ]
@@ -1930,6 +2127,13 @@ for (const type in level.elements) {
     document.getElementById("content").appendChild(label);
   });
 };
+(level.connections || []).forEach((connection) => {
+  [sourceID, sourceName, targetID, targetName] = connection;
+  const source = document.getElementById(sourceID).querySelector(`[data-name="${sourceName}"]`);
+  const target = document.getElementById(targetID).querySelector(`[data-name="${targetName}"]`);
+  const line = drawConnectionLine(source, target);
+  addConnectionToComponents(source, target, line)
+});
 document.getElementById("truth-table-inputs").colSpan = truthTable.inputs.length;
 document.getElementById("truth-table-outputs").colSpan = truthTable.outputs.length;
 const table = document.getElementById("truth-table");
@@ -2102,6 +2306,9 @@ function createElement(currentTarget, details) {
       element.style.transform = 'none';
     } else {
       element.classList.remove("draggable");
+    }
+    if (details.isActive) {
+      element.classList.add('active');
     }
     element.classList.remove("hidden");
     element.id = details.id;
