@@ -1852,36 +1852,71 @@ const levels = [
     },
     truthTable:[
       [[0,0,0,0,0,0,0,0],[0,0]],
-      [[0,0,0,1,1,0,1,1],[12,0]],
-      [[0,0,1,1,1,1,0,0],[15,0]],
+      [[0,0,0,1,0,0,0,0],[1,0]],
       [[0,1,1,0,0,0,0,0],[6,0]],
       [[0,0,0,1,0,1,0,1],[6,0]],
-      [[1,0,0,1,0,1,0,0],[13,0]],
-      [[0,0,0,1,0,0,0,0],[1,0]],
-      [[1,0,1,1,0,0,1,1],[14,0]],
-      [[1,1,0,1,0,0,0,0],[13,0]],
       [[0,1,0,0,0,1,0,1],[9,0]],
       [[0,0,1,1,1,0,0,0],[11,0]],
-      [[0,1,0,0,1,1,1,1],[3,1]],
-      [[1,1,0,0,1,1,0,0],[8,1]],
-      [[1,0,0,0,1,1,0,1],[5,1]],
+      [[0,0,0,1,1,0,1,1],[12,0]],
+      [[1,0,0,1,0,1,0,0],[13,0]],
+      [[1,1,0,1,0,0,0,0],[13,0]],
+      [[1,0,1,1,0,0,1,1],[14,0]],
+      [[0,0,1,1,1,1,0,0],[15,0]],
       [[1,0,0,0,1,0,0,0],[0,1]],
+      [[0,1,0,0,1,1,1,1],[3,1]],
+      [[1,0,0,0,1,1,0,1],[5,1]],
+      [[1,1,0,0,1,1,0,0],[8,1]],
       [[1,0,1,1,1,1,1,0],[9,1]],
+    ]
+  },
+  {
+    title: 'Flip-flop',
+    components:[],
+    elements:{
+      toggle:[
+        {x:150, y:200, name:'Set to 0'},
+        {x:150, y:300, name:'Set to 1'},
+      ],
+      not:[
+        {x:600, y:180, name:'', draggable:true},
+        {x:600, y:300, name:'', draggable:true},
+      ],
+      or:[
+        {x:450, y:185, name:'', draggable:true},
+        {x:450, y:305, name:'', draggable:true},
+      ],
+      output:[
+        {x:760, y:200, name:'output'},
+      ]
+    },
+    truthTable:[
+      [[1,0],[0]],
+      [[0,0],[0]],
+      [[0,1],[1]],
+      [[0,0],[1]],
     ]
   },
 ]
 const levelNumber = parseInt((new URLSearchParams(window.location.search)).get('l') || 0);
 document.getElementById('next-button').href = `?l=${levelNumber + 1}`;
 const level = levels[levelNumber];
-const truthTable = {inputs:[], outputs:[]}
+const truthTable = {}
 document.getElementById('level-title').innerText = `Level ${levelNumber.toString(2)} - ${level.title}`;
 level.components.forEach((component) => {
   document.querySelector(`.draggable[data-name="${component}"]`).classList.remove('hidden');
 });
 const counter = {};
 for (const type in level.elements) {
-  const inputOrOutput = (type == 'toggle' ? 'input' : 'output');
+  var inputOrOutput
+  if (type === 'not' || type === 'or') {
+    inputOrOutput = 'component';
+  } else {
+    inputOrOutput = (type == 'toggle' ? 'input' : 'output');
+  }
   counter[inputOrOutput] = counter[inputOrOutput] || 0;
+  if (!truthTable[`${inputOrOutput}s`]) {
+    truthTable[`${inputOrOutput}s`] = [];
+  }
   array = truthTable[`${inputOrOutput}s`];
   level.elements[type].forEach((details) => {
     array.push(details.name);
