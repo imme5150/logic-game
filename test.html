@@ -407,7 +407,7 @@
               <title>data</title>
             </circle>
             <circle data-name="set" cx="482" cy="605" r="8" class="input connection">
-              <title>store me</title>
+              <title>save</title>
             </circle>
             <circle data-name="memory" cx="544" cy="575" r="8" class="output connection">
               <title>stored value</title>
@@ -435,7 +435,7 @@
               <title>in 8</title>
             </circle>
             <circle data-name="set" cx="502" cy="611" r="8" class="input connection">
-              <title>store me</title>
+              <title>save</title>
             </circle>
             <circle data-name="memory1" cx="544" cy="552" r="8" class="output connection">
               <title>memory 1</title>
@@ -797,7 +797,7 @@
     dFlipFlop: {type:'dFlipFlop', input:{data:null, set:null}, output:{memory:[]}},
     register: {type:'register', input:{in1:null, in2:null, in4:null, in8:null, set:null}, output:{memory1:[],memory2:[],memory4:[],memory8:[]}},
     toggle: {type:'toggle', output:{out:[]}},
-    output: {type:'output', input:{in:null}, outpregisterut:{out:[]}},
+    output: {type:'output', input:{in:null}, output:{out:[]}},
     not: {type:'not', input:{in:null}, output:{out:[]}}
   }
   function decoder(inputs) {
@@ -2028,8 +2028,8 @@ const levels = [
     components:['and', 'or', 'not', 'flipFlop'],
     elements:{
       toggle:[
-        {x:150, y:200, name:'What to Store'},
-        {x:150, y:300, name:'Store Me'},
+        {x:150, y:200, name:'What to Save'},
+        {x:150, y:300, name:'Save'},
       ],
       output:[
         {x:760, y:200, name:'Memory'},
@@ -2055,7 +2055,7 @@ const levels = [
         {x:150, y:280, name:'in 4'},
         {x:150, y:190, name:'in 2'},
         {x:150, y:100, name:'in 1'},
-        {x:150, y:500, name:'Store Me'},
+        {x:150, y:500, name:'Save'},
       ],
       lcd4:[
         {x:760, y:200, name:'Memory'},
