@@ -101,7 +101,7 @@
   <div id="container" style="width:100%;height:100%;display:flex">
     <div id="sidebar" style="flex:0 0 99px;padding:20px 0 0 9px">
       <div class="hidden draggable component switch" style="width:min-content" data-name="toggle">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110" height="75" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="75" viewBox="70 0 1000 1000" xml:space="preserve">
         <g>
           <circle data-name="out" cx="1030" cy="500" r="80" class="output connection">
              <title>output</title>
@@ -222,6 +222,35 @@
                 </circle>
                 <circle data-name="c" cx="466" cy="593" r="8" class="input connection">
                   <title>input c</title>
+                </circle>
+                <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
+                  <title>output</title>
+                </circle>
+              </g>
+            </g>
+          </g>
+          <g transform="scale(1.53) translate(-15)">
+            <path d="M24.09375 5l2 2.4375S31.75 14.437549 31.75 25s-5.65625 17.5625-5.65625 17.5625l-2 2.4375H41.25c2.408076.000001 7.689699.024514 13.625-2.40625s12.536536-7.343266 17.6875-16.875L71.25 25l1 0C62.259387 5.21559 46.006574 5 41.25 5z" fill="#FFF" stroke="#000" stroke-width="2.5"/>
+          </g>
+          <text x="38" y="44">OR</text>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="or4">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="75">
+          <g transform="translate(-453.7104,-542.4467)">
+            <g transform="translate(7.433545,5.854649)">
+              <g>
+                <circle data-name="a" cx="460" cy="550" r="8" class="input connection">
+                  <title>input a</title>
+                </circle>
+                <circle data-name="b" cx="468" cy="566" r="8" class="input connection">
+                  <title>input b</title>
+                </circle>
+                <circle data-name="c" cx="468" cy="584" r="8" class="input connection">
+                  <title>input c</title>
+                </circle>
+                <circle data-name="d" cx="460" cy="600" r="8" class="input connection">
+                  <title>input d</title>
                 </circle>
                 <circle data-name="out" cx="538" cy="575" r="8" class="output connection">
                   <title>output</title>
@@ -637,6 +666,33 @@
           </g>
         </svg>
       </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="mux2">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+          <circle data-name="in0" cx="15" cy="18" r="8" class="input connection">
+            <title>input 0</title>
+          </circle>
+          <circle data-name="in1" cx="15" cy="35" r="8" class="input connection">
+            <title>input 1</title>
+          </circle>
+          <circle data-name="in2" cx="15" cy="53" r="8" class="input connection">
+            <title>input 2</title>
+          </circle>
+          <circle data-name="in3" cx="15" cy="70" r="8" class="input connection">
+            <title>input 3</title>
+          </circle>
+          <circle data-name="out" cx="101" cy="44" r="8" class="output connection">
+            <title>output</title>
+          </circle>
+          <circle data-name="which1" cx="45" cy="75" r="8" class="input connection">
+            <title>which 1</title>
+          </circle>
+          <circle data-name="which2" cx="65" cy="75" r="8" class="input connection">
+            <title>which 2</title>
+          </circle>
+          <rect width="84" height="60" x="15" y="14" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <text x="38" y="50">MUX</text>
+        </svg>
+      </div>
       <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="lcd7">
         <svg xmlns="http://www.w3.org/2000/svg" height="110" width="80">
           <circle cx="40" cy="14" r="6" class="input connection" data-name="t">
@@ -781,6 +837,7 @@
     lcd4: {type:'lcd4', input:{in1:null, in2:null, in4:null, in8:null}, output:{}},
     or: {type:'or', input:{a:null, b:null}, output:{out:[]}},
     or3: {type:'or3', input:{a:null, b:null, c:null}, output:{out:[]}},
+    or4: {type:'or4', input:{a:null, b:null, c:null, d:null}, output:{out:[]}},
     xor: {type:'xor', input:{a:null, b:null}, output:{out:[]}},
     xor3: {type:'xor3', input:{a:null, b:null, c:null}, output:{out:[]}},
     and: {type:'and', input:{a:null, b:null}, output:{out:[]}},
@@ -791,6 +848,7 @@
     decoder2: {type:'decoder2', input:{in1:null, in2:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
     decoder3: {type:'decoder3', input:{in1:null, in2:null, in4:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
     decoder4: {type:'decoder4', input:{in1:null, in2:null, in4:null, in8:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[], out8:[], out9:[], out10:[], out11:[], out12:[], out13:[], out14:[], out15:[]}},
+    mux2: {type:'mux2', input:{in0:null, in1:null, in2:null, in3:null, which1:null, which2:null}, output:{out:[]}},
     dmux2: {type:'dmux2', input:{in1:null, in2:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
     dmux3: {type:'dmux3', input:{in1:null, in2:null, in4:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
     flipFlop: {type:'flipFlop', input:{set0:null, set1:null}, output:{memory:[]}},
@@ -900,6 +958,16 @@
       }
       return {memory:element.dataset.value == '1'}
     },
+    mux2: function (inputs, element) {
+      var outputNumber = 0;
+      for (var name in inputs) {
+        if (name.slice(0,5) != 'which') { continue }
+        if (inputs[name]) {
+          outputNumber += Number(name.slice(5));
+        }
+      }
+      return {out:inputs[`in${outputNumber}`]}
+    },
     dmux2: dmux,
     dmux3: dmux,
     decoder2: decoder,
@@ -944,6 +1012,9 @@
     },
     or3: function (inputs) {
       return {out:inputs.a || inputs.b || inputs.c}
+    },
+    or4: function (inputs) {
+      return {out:inputs.a || inputs.b || inputs.c || inputs.d}
     },
     xor: function (inputs) {
       return {out:(inputs.a || inputs.b) && !(inputs.a && inputs.b)}
@@ -2070,6 +2141,74 @@ const levels = [
       [[1,0,0,1,0],[9]],
       [[0,1,1,1,0],[9]],
       [[0,1,1,1,1],[7]],
+    ]
+  },
+  {
+    title: '4-to-1 Mutiplexer - MUX',
+    components:['and3', 'or4', 'not'],
+    elements:{
+      toggle:[
+        {x:150, y:100, name:'in 0'},
+        {x:150, y:170, name:'in 1'},
+        {x:150, y:240, name:'in 2'},
+        {x:150, y:310, name:'in 3'},
+        {x:150, y:570, name:'which 2'},
+        {x:150, y:500, name:'which 1'},
+      ],
+      output:[
+        {x:640, y:200, name:'output'},
+      ]
+    },
+    truthTable:[
+      [[0,1,1,1,0,0],[0]],
+      [[1,0,0,0,0,0],[1]],
+      [[0,1,0,0,0,1],[1]],
+      [[1,0,0,1,0,1],[0]],
+      [[1,0,0,1,1,0],[0]],
+      [[0,0,1,0,1,0],[1]],
+      [[0,0,1,0,1,1],[0]],
+      [[1,1,1,0,1,1],[0]],
+      [[0,0,0,1,1,1],[1]],
+    ]
+  },
+  {
+    title: 'Quad 4-to-1 Mutiplexer',
+    components:['mux2'],
+    elements:{
+      toggle:[
+        {x:420, y:100, name:'A 8'},
+        {x:330, y:100, name:'A 4'},
+        {x:240, y:100, name:'A 2'},
+        {x:150, y:100, name:'A 1'},
+        {x:420, y:170, name:'B 8'},
+        {x:330, y:170, name:'B 4'},
+        {x:240, y:170, name:'B 2'},
+        {x:150, y:170, name:'B 1'},
+        {x:420, y:240, name:'C 8'},
+        {x:330, y:240, name:'C 4'},
+        {x:240, y:240, name:'C 2'},
+        {x:150, y:240, name:'C 1'},
+        {x:420, y:310, name:'D 8'},
+        {x:330, y:310, name:'D 4'},
+        {x:240, y:310, name:'D 2'},
+        {x:150, y:310, name:'D 1'},
+        {x:150, y:570, name:'which 2'},
+        {x:150, y:500, name:'which 1'},
+      ],
+      lcd4:[
+        {x:640, y:200, name:'output'},
+      ]
+    },
+    truthTable:[
+      [[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0],[0]],
+      [[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[2]],
+      [[1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[10]],
+      [[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],[0]],
+      [[0,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1],[12]],
+      [[1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0],[0]],
+      [[0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0],[9]],
+      [[1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],[0]],
+      [[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1],[15]],
     ]
   },
   {
