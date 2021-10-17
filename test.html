@@ -667,7 +667,7 @@
         </svg>
       </div>
       <div class="hidden draggable component" style="width:min-content" data-name="mux2">
-        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="90">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="90">
           <circle data-name="in0" cx="15" cy="18" r="8" class="input connection">
             <title>input 0</title>
           </circle>
@@ -680,6 +680,28 @@
           <circle data-name="in3" cx="15" cy="70" r="8" class="input connection">
             <title>input 3</title>
           </circle>
+          <circle data-name="out" cx="101" cy="44" r="8" class="output connection">
+            <title>output</title>
+          </circle>
+          <circle data-name="which1" cx="45" cy="75" r="8" class="input connection">
+            <title>which 1</title>
+          </circle>
+          <circle data-name="which2" cx="65" cy="75" r="8" class="input connection">
+            <title>which 2</title>
+          </circle>
+          <rect width="84" height="60" x="15" y="14" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <text x="38" y="50">MUX</text>
+        </svg>
+      </div>
+      <div class="draggable component" style="width:min-content" data-name="4mux2">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="90">
+          <g  class="input connection">
+            <rect data-name="in1" x="5" y="18" width="8" height="4" />
+            <rect data-name="in2" x="5" y="22" width="8" height="4" />
+            <rect data-name="in4" x="5" y="26" width="8" height="4" />
+            <rect data-name="in8" x="5" y="30" width="8" height="4" />
+            <title>input</title>
+          </g>
           <circle data-name="out" cx="101" cy="44" r="8" class="output connection">
             <title>output</title>
           </circle>
@@ -2176,39 +2198,39 @@ const levels = [
     components:['mux2'],
     elements:{
       toggle:[
-        {x:420, y:100, name:'A 8'},
-        {x:330, y:100, name:'A 4'},
-        {x:240, y:100, name:'A 2'},
-        {x:150, y:100, name:'A 1'},
-        {x:420, y:170, name:'B 8'},
-        {x:330, y:170, name:'B 4'},
-        {x:240, y:170, name:'B 2'},
-        {x:150, y:170, name:'B 1'},
-        {x:420, y:240, name:'C 8'},
-        {x:330, y:240, name:'C 4'},
-        {x:240, y:240, name:'C 2'},
-        {x:150, y:240, name:'C 1'},
-        {x:420, y:310, name:'D 8'},
-        {x:330, y:310, name:'D 4'},
-        {x:240, y:310, name:'D 2'},
-        {x:150, y:310, name:'D 1'},
+        {x:420, y:100, name:'A 8', group:'A'},
+        {x:330, y:100, name:'A 4', group:'A'},
+        {x:240, y:100, name:'A 2', group:'A'},
+        {x:150, y:100, name:'A 1', group:'A'},
+        {x:420, y:170, name:'B 8', group:'B'},
+        {x:330, y:170, name:'B 4', group:'B'},
+        {x:240, y:170, name:'B 2', group:'B'},
+        {x:150, y:170, name:'B 1', group:'B'},
+        {x:420, y:240, name:'C 8', group:'C'},
+        {x:330, y:240, name:'C 4', group:'C'},
+        {x:240, y:240, name:'C 2', group:'C'},
+        {x:150, y:240, name:'C 1', group:'C'},
+        {x:420, y:310, name:'D 8', group:'D'},
+        {x:330, y:310, name:'D 4', group:'D'},
+        {x:240, y:310, name:'D 2', group:'D'},
+        {x:150, y:310, name:'D 1', group:'D'},
         {x:150, y:570, name:'which 2'},
         {x:150, y:500, name:'which 1'},
       ],
       lcd4:[
-        {x:640, y:200, name:'output'},
+        {x:700, y:200, name:'output'},
       ]
     },
     truthTable:[
-      [[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0],[0]],
-      [[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[2]],
-      [[1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[10]],
-      [[1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],[0]],
-      [[0,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1],[12]],
-      [[1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0],[0]],
-      [[0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0],[9]],
-      [[1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1],[0]],
-      [[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1],[15]],
+      [[ 0,15,15,15,0,0],[0]],
+      [[ 2, 0, 0, 0,0,0],[2]],
+      [[10, 0, 0, 0,0,0],[10]],
+      [[15, 0,15,15,0,1],[0]],
+      [[ 0,12, 0, 0,0,1],[12]],
+      [[15,15, 0,15,1,0],[0]],
+      [[ 0, 0, 9, 0,1,0],[9]],
+      [[15,15,15, 0,1,1],[0]],
+      [[ 0, 0, 0,15,1,1],[15]],
     ]
   },
   {
@@ -2242,6 +2264,7 @@ level.components.forEach((component) => {
   document.querySelector(`.draggable[data-name="${component}"]`).classList.remove('hidden');
 });
 const counter = {};
+var groups = [];
 for (const type in level.elements) {
   var inputOrOutput
   if (type === 'not' || type === 'or') {
@@ -2255,7 +2278,14 @@ for (const type in level.elements) {
   }
   array = truthTable[`${inputOrOutput}s`];
   level.elements[type].forEach((details) => {
-    array.push(details.name);
+    if (details.group) {
+      if (!array.includes(details.group)) {
+        array.push(details.group);
+        groups.push(details.group);
+      }
+    } else {
+      array.push(details.name);
+    }
     details.id = inputOrOutput + '-' + counter[inputOrOutput];
     counter[inputOrOutput]++;
     createElement(document.querySelector(`.draggable[data-name="${type}"]`), details);
@@ -2416,12 +2446,32 @@ function toggleInputsToIndex(index, skipClearingActive) {
   }
   newActiveRow.classList.add('active');
   // set toggle inputs
+  var count = 0;
   level.truthTable[index][0].forEach((value, i) => {
-    const input = document.getElementById(`input-${i}`);
-    if (value == 1) {
-      input.classList.add('active');
+    if (groups[i]) {
+      const binaryValue = Number(value).toString(2);
+      document.querySelectorAll(`[data-group="${groups[i]}"]`).forEach(function (element) {
+        const index = Math.log2(element.dataset.groupName.split(' ').pop());
+        if (index == 0) {
+          binVal = binaryValue.slice(-1)
+        } else {
+          binVal = binaryValue.slice(-(index + 1), -index)
+        }
+        if (binVal == 1) {
+          element.classList.add('active');
+        } else {
+          element.classList.remove('active');
+        }
+        count += 1;
+      })
     } else {
-      input.classList.remove('active');
+      const input = document.getElementById(`input-${count}`);
+      if (value == 1) {
+        input.classList.add('active');
+      } else {
+        input.classList.remove('active');
+      }
+      count += 1;
     }
   });
 }
@@ -2448,6 +2498,10 @@ function createElement(currentTarget, details) {
     }
     if (details.isActive) {
       element.classList.add('active');
+    }
+    if (details.group) {
+      element.dataset.group = details.group;
+      element.dataset.groupName = details.name;
     }
     element.classList.remove("hidden");
     element.id = details.id;
