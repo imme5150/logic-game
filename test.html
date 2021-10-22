@@ -3,14 +3,21 @@
   <meta charset="utf-8">
 </head>
 <body>
+  <!-- TODO:
+  - undelete bus
+  - undelete object w/ bus connected - unable to delete bus
+ -->
   <style media="screen">
     #sidebar {
       border-right: 1px solid;
       background: #EEE
     }
     #content .input, #content .output, #content .switch,
-    .notAddingLine line.removable, tr.clickable {
+    .notAddingLine g.removable, .notAddingLine line.removable, tr.clickable {
       cursor:pointer
+    }
+    .notAddingLine g.removable:hover line {
+      stroke-opacity: 0.7;
     }
     .notAddingLine line.removable:hover {
       stroke-width: 10;
@@ -449,37 +456,56 @@
         </svg>
       </div>
       <div class="hidden draggable component" style="width:min-content" data-name="register">
-        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="110" height="93">
-          <g transform="translate(-445,-530)">
-            <circle data-name="in1" cx="460" cy="552" r="8" class="input connection">
-              <title>in 1</title>
-            </circle>
-            <circle data-name="in2" cx="460" cy="569" r="8" class="input connection">
-              <title>in 2</title>
-            </circle>
-            <circle data-name="in4" cx="460" cy="586" r="8" class="input connection">
-              <title>in 4</title>
-            </circle>
-            <circle data-name="in8" cx="460" cy="603" r="8" class="input connection">
-              <title>in 8</title>
-            </circle>
-            <circle data-name="set" cx="502" cy="611" r="8" class="input connection">
-              <title>save</title>
-            </circle>
-            <circle data-name="memory1" cx="544" cy="552" r="8" class="output connection">
-              <title>memory 1</title>
-            </circle>
-            <circle data-name="memory2" cx="544" cy="569" r="8" class="output connection">
-              <title>memory 2</title>
-            </circle>
-            <circle data-name="memory4" cx="544" cy="586" r="8" class="output connection">
-              <title>memory 4</title>
-            </circle>
-            <circle data-name="memory8" cx="544" cy="603" r="8" class="output connection">
-              <title>memory 8</title>
-            </circle>
-            <rect width="84" height="66" x="460" y="544" fill="#FFF" stroke="#000" stroke-width="4"/>
-            <text x="464" y="583">Register</text>
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="40">
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in1" x="5" y="8" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2" x="5" y="12" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in4" x="5" y="16" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in8" x="5" y="20" width="8" height="4" />
+            <title>input</title>
+          </g>
+          <g class="output connection" data-size="3">
+            <rect data-bus-bit="1" data-name="out1" x="106" y="8" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="out2" x="106" y="12" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="out4" x="106" y="16" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="out8" x="106" y="20" width="8" height="4" />
+            <title>memory</title>
+          </g>
+          <circle data-name="set" cx="55" cy="28" r="8" class="input connection">
+            <title>save</title>
+          </circle>
+          <rect width="89" height="28" x="15" y="2" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <text x="22" y="22">Register</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hidden draggable component" style="width:min-content" data-name="memory">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="50">
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in1" x="5" y="13" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2" x="5" y="17" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in4" x="5" y="21" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in8" x="5" y="25" width="8" height="4" />
+            <title>input</title>
+          </g>
+          <g class="output connection" data-size="3">
+            <rect data-bus-bit="1" data-name="out1" x="106" y="13" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="out2" x="106" y="17" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="out4" x="106" y="21" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="out8" x="106" y="25" width="8" height="4" />
+            <title>memory</title>
+          </g>
+          <circle data-name="which1" cx="35" cy="38" r="8" class="input connection">
+            <title>which 1</title>
+          </circle>
+          <circle data-name="which2" cx="55" cy="38" r="8" class="input connection">
+            <title>which 2</title>
+          </circle>
+          <circle data-name="set" cx="85" cy="38" r="8" class="input connection">
+            <title>save</title>
+          </circle>
+          <rect width="89" height="38" x="15" y="2" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <text x="24" y="27">Memory</text>
           </g>
         </svg>
       </div>
@@ -693,42 +719,67 @@
           <text x="38" y="50">MUX</text>
         </svg>
       </div>
-      <div class="draggable component" style="width:min-content" data-name="Bmux2">
-        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="90">
-          <g class="input connection" data-size="4">
-            <rect data-name="in1" x="5" y="18" width="8" height="4" />
-            <rect data-name="in2" x="5" y="22" width="8" height="4" />
-            <rect data-name="in4" x="5" y="26" width="8" height="4" />
-            <rect data-name="in8" x="5" y="30" width="8" height="4" />
-            <title>input</title>
+      <div class="hidden draggable component" style="width:min-content" data-name="Bmux2">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="110">
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in0-1" x="5" y="18" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in0-2" x="5" y="22" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in0-4" x="5" y="26" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in0-8" x="5" y="30" width="8" height="4" />
+            <title>input 0</title>
           </g>
-          <circle data-name="out" cx="101" cy="44" r="8" class="output connection">
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in1-1" x="5" y="38" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in1-2" x="5" y="42" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in1-4" x="5" y="46" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in1-8" x="5" y="50" width="8" height="4" />
+            <title>input 1</title>
+          </g>
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in2-1" x="5" y="58" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2-2" x="5" y="62" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in2-4" x="5" y="66" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in2-8" x="5" y="70" width="8" height="4" />
+            <title>input 2</title>
+          </g>
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in3-1" x="5" y="78" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in3-2" x="5" y="82" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in3-4" x="5" y="86" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in3-8" x="5" y="90" width="8" height="4" />
+            <title>input 3</title>
+          </g>
+          <g class="output connection" data-size="3">
+            <rect data-bus-bit="1" data-name="out1" x="99" y="46" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="out2" x="99" y="50" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="out4" x="99" y="54" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="out8" x="99" y="58" width="8" height="4" />
             <title>output</title>
-          </circle>
-          <circle data-name="which1" cx="45" cy="75" r="8" class="input connection">
+          </g>
+          <circle data-name="which1" cx="45" cy="95" r="8" class="input connection">
             <title>which 1</title>
           </circle>
-          <circle data-name="which2" cx="65" cy="75" r="8" class="input connection">
+          <circle data-name="which2" cx="65" cy="95" r="8" class="input connection">
             <title>which 2</title>
           </circle>
-          <rect width="84" height="60" x="15" y="14" fill="#FFF" stroke="#000" stroke-width="4"/>
-          <text x="38" y="50">MUX</text>
+          <rect width="84" height="80" x="15" y="14" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <text x="37" y="61">MUX</text>
         </svg>
       </div>
       <div class="hidden draggable component" style="width:min-content" data-name="B4">
         <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="20" height="15">
-          <g class="input connection" data-size="4">
-            <rect data-name="in1" x="0" y="0" width="8" height="4" />
-            <rect data-name="in2" x="0" y="4" width="8" height="4" />
-            <rect data-name="in4" x="0" y="8" width="8" height="4" />
-            <rect data-name="in8" x="0" y="12" width="8" height="4" />
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in1" x="0" y="0" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2" x="0" y="4" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in4" x="0" y="8" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in8" x="0" y="12" width="8" height="4" />
             <title>input</title>
           </g>
-          <g class="output connection" data-size="4">
-            <rect data-name="out1" x="5" y="0" width="8" height="4" />
-            <rect data-name="out2" x="5" y="4" width="8" height="4" />
-            <rect data-name="out4" x="5" y="8" width="8" height="4" />
-            <rect data-name="out8" x="5" y="12" width="8" height="4" />
+          <g class="output connection" data-size="3">
+            <rect data-bus-bit="1" data-name="out1" x="5" y="0" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="out2" x="5" y="4" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="out4" x="5" y="8" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="out8" x="5" y="12" width="8" height="4" />
             <title>output</title>
           </g>
         </svg>
@@ -847,6 +898,36 @@
           </g>
         </svg>
       </div>
+      <div class="hidden draggable component" style="width:min-content;margin:12px" data-name="Blcd">
+        <svg xmlns="http://www.w3.org/2000/svg" height="90" width="101">
+          <g class="input connection" data-size="3">
+            <rect data-bus-bit="1" data-name="in1" x="3" y="38" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2" x="3" y="42" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in4" x="3" y="46" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in8" x="3" y="50" width="8" height="4" />
+            <title>input</title>
+          </g>
+          <rect x="12" y="5" width="88" height="82" fill="#BBB" stroke-width="3" stroke="#000"/>
+          <g class="lcd tens" transform="translate(20,14)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+          <g class="lcd ones" transform="translate(61,14)" fill="#FFF">
+            <path d="M2.1 2L.2 0h31.6l-1.9 2L28 4H4z" data-name="t"/>
+            <path d="M0 16V1.2L2 3l1.9 2V29l-2 1-1.8.9z" data-name="tl" />
+            <path d="M30 30l-2-1V5l2-1.9 2-2V31l-2-1z" data-name="tr" />
+            <path d="M16 33.9H3.9l-1.9-1L.2 32l.2-.1 1.8-1 1.7-.8H28l1.9 1 1.8 1-1.9.9-1.9 1z" data-name="m" />
+            <path d="M0 48L.2 33l2 1 1.8 1v24l-2 1.8-1.8 2z" data-name="bl" />
+            <path d="M30 60.9l-2-2V35l2-.9 2-1V62.9z" data-name="br" />
+            <path d="M1.5 62.6l1.9-2 .6-.5h24l1.4 1.4 1.9 1.9.5.5H.2z" data-name="b" />
+          </g>
+        </svg>
+      </div>
     </div>
     <div id="content" style="flex:1 0 0">
       <h1 id="level-title" style="position:absolute;left:226px;top:0"></h1>
@@ -875,6 +956,7 @@
     lcd7: {type:'lcd7', input:{t:[], tl:[], tr:[], m:[], bl:[], b:[], br:[]}, output:{}},
     lcd9: {type:'lcd9', input:{0:null, 1:null, 2:null, 3:null, 4:null, 5:null, 6:null, 7:null, 8:null, 9:null}, output:{}},
     lcd4: {type:'lcd4', input:{in1:null, in2:null, in4:null, in8:null}, output:{}},
+    Blcd: {type:'Blcd', input:{in1:null, in2:null, in4:null, in8:null}, output:{}},
     or: {type:'or', input:{a:null, b:null}, output:{out:[]}},
     or3: {type:'or3', input:{a:null, b:null, c:null}, output:{out:[]}},
     or4: {type:'or4', input:{a:null, b:null, c:null, d:null}, output:{out:[]}},
@@ -890,12 +972,13 @@
     decoder4: {type:'decoder4', input:{in1:null, in2:null, in4:null, in8:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[], out8:[], out9:[], out10:[], out11:[], out12:[], out13:[], out14:[], out15:[]}},
     mux2: {type:'mux2', input:{in0:null, in1:null, in2:null, in3:null, which1:null, which2:null}, output:{out:[]}},
     B4: {type:'B4', input:{in1:null, in2:null, in4:null, in8:null}, output:{out1:[], out2:[], out4:[], out8:[]}},
-    Bmux2: {type:'Bmux2', input:{in1:null, in2:null, in4:null, in8:null, which1:null, which2:null}, output:{out:[]}},
+    Bmux2: {type:'Bmux2', input:{'in0-1':null, 'in0-2':null, 'in0-4':null, 'in0-8':null, 'in1-1':null, 'in1-2':null, 'in1-4':null, 'in1-8':null, 'in2-1':null, 'in2-2':null, 'in2-4':null, 'in2-8':null, 'in3-1':null, 'in3-2':null, 'in3-4':null, 'in3-8':null, which1:null, which2:null}, output:{out1:[], out2:[], out4:[], out8:[]}},
     dmux2: {type:'dmux2', input:{in1:null, in2:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[]}},
     dmux3: {type:'dmux3', input:{in1:null, in2:null, in4:null, selector:null}, output:{out0:[], out1:[], out2:[], out3:[], out4:[], out5:[], out6:[], out7:[]}},
     flipFlop: {type:'flipFlop', input:{set0:null, set1:null}, output:{memory:[]}},
     dFlipFlop: {type:'dFlipFlop', input:{data:null, set:null}, output:{memory:[]}},
-    register: {type:'register', input:{in1:null, in2:null, in4:null, in8:null, set:null}, output:{memory1:[],memory2:[],memory4:[],memory8:[]}},
+    register: {type:'register', input:{in1:null, in2:null, in4:null, in8:null, set:null}, output:{out1:[],out2:[],out4:[],out8:[]}},
+    memory: {type:'memory', input:{in1:null, in2:null, in4:null, in8:null, set:null, which1:null, which2:null}, output:{out1:[],out2:[],out4:[],out8:[]}},
     toggle: {type:'toggle', output:{out:[]}},
     output: {type:'output', input:{in:null}, output:{out:[]}},
     not: {type:'not', input:{in:null}, output:{out:[]}}
@@ -973,7 +1056,47 @@
     }
     return results
   }
+  function lcd4(inputs, element) {
+    var count = 0;
+    for (var name in inputs) {
+      if (inputs[name]) {
+        number = Number(name.slice(2));
+        count += number;
+      }
+    }
+    const ones = {};
+    ones[count % 10] = true;
+    setSegments(ones, element.querySelector('.ones'));
+    const tens = {};
+    if (count > 9) {
+      tens['1'] = true;
+    } else {
+      tens['0'] = true;
+    }
+    setSegments(tens, element.querySelector('.tens'));
+    return {}
+  }
   const functions = {
+    memory: function (inputs, element) {
+      memory = {};
+      var register = 0;
+      for (var name in inputs) {
+        if (name.slice(0,5) != 'which') { continue }
+        if (inputs[name]) {
+          register += Number(name.slice(5));
+        }
+      }
+      var newValue = 0;
+      for (var name in inputs) {
+        if (name == 'set' || name.slice(0,5) == 'which') { continue; }
+        number = name.slice(2);
+        if (inputs.set) {
+          element.dataset[`value${register}-${number}`] = inputs[name] ? '1' : '0';
+        }
+        memory[`out${number}`] = element.dataset[`value${register}-${number}`] == '1';
+      }
+      return memory
+    },
     register: function (inputs, element) {
       memory = {};
       for (var name in inputs) {
@@ -982,7 +1105,7 @@
         if (inputs.set) {
           element.dataset[`value${number}`] = inputs[name] ? '1' : '0';
         }
-        memory[`memory${number}`] = element.dataset[`value${number}`] == '1';
+        memory[`out${number}`] = element.dataset[`value${number}`] == '1';
       }
       return memory
     },
@@ -1008,7 +1131,20 @@
       return results
     },
     Bmux2: function (inputs, element) {
-
+      var outputNumber = 0;
+      for (var name in inputs) {
+        if (name.slice(0,5) != 'which') { continue }
+        if (inputs[name]) {
+          outputNumber += Number(name.slice(5));
+        }
+      }
+      var results = {};
+      for (var name in inputs) {
+        if (name.slice(2,3) != outputNumber) { continue }
+        let busBit = name.slice(4);
+        results[`out${busBit}`] = inputs[name];
+      }
+      return results
     },
     mux2: function (inputs, element) {
       var outputNumber = 0;
@@ -1039,26 +1175,8 @@
     lcd9: function (inputs, element) {
       return setSegments(inputs, element)
     },
-    lcd4: function (inputs, element) {
-      var count = 0;
-      for (var name in inputs) {
-        if (inputs[name]) {
-          number = Number(name.slice(2));
-          count += number;
-        }
-      }
-      const ones = {};
-      ones[count % 10] = true;
-      setSegments(ones, element.querySelector('.ones'));
-      const tens = {};
-      if (count > 9) {
-        tens['1'] = true;
-      } else {
-        tens['0'] = true;
-      }
-      setSegments(tens, element.querySelector('.tens'));
-      return {}
-    },
+    Blcd: lcd4,
+    lcd4: lcd4,
     or: function (inputs) {
       return {out:inputs.a || inputs.b}
     },
@@ -1115,27 +1233,46 @@
   document.getElementById("content").addEventListener('click', function (e) {
     targetConnector = e.target.closest('.connection');
     if (activeConnection) {
-      if (targetConnector && !targetConnector.classList.contains(activeConnection.startType)) {
+      if (targetConnector && !targetConnector.classList.contains(activeConnection.startType) && targetConnector.dataset.size == activeConnection.startNode.dataset.size) {
         targetConnector.classList.add('connected');
         let container = document.getElementById("connections").getBoundingClientRect();
         targetX = targetConnector.getBoundingClientRect().x - container.left + 8;
         targetY = targetConnector.getBoundingClientRect().y;
         const activeLine = document.getElementById("connections").lastElementChild;
         let source, target;
-        if (activeConnection.startType == 'input') {
-          source = targetConnector;
-          target = activeConnection.startNode;
-          activeLine.setAttribute('x2', activeLine.getAttribute('x1'));
-          activeLine.setAttribute('y2', activeLine.getAttribute('y1'));
-          activeLine.setAttribute('x1', targetX);
-          activeLine.setAttribute('y1', targetY);
+        if (targetConnector.dataset.size) {
+          activeLine.remove();
+          const container = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          container.setAttribute('class', 'removable');
+          container.setAttribute('transform','translate(0,-6)');
+          document.getElementById('connections').appendChild(container);
+          for (var i = Number(targetConnector.dataset.size); i >= 0; i--) {
+            if (activeConnection.startType == 'input') {
+              source = targetConnector.querySelector(`[data-bus-bit="${2**i}"]`);
+              target = activeConnection.startNode.querySelector(`[data-bus-bit="${2**i}"]`);
+            } else {
+              source = activeConnection.startNode.querySelector(`[data-bus-bit="${2**i}"]`);
+              target = targetConnector.querySelector(`[data-bus-bit="${2**i}"]`);
+            }
+            const line = drawConnectionLine(source, target, {container:container, connectionsNotRemovable:true});
+            addConnectionToComponents(source, target, line)
+          }
         } else {
-          source = activeConnection.startNode;
-          target = targetConnector;
-          activeLine.setAttribute('x2', targetX);
-          activeLine.setAttribute('y2', targetY);
+          if (activeConnection.startType == 'input') {
+            source = targetConnector;
+            target = activeConnection.startNode;
+            activeLine.setAttribute('x2', activeLine.getAttribute('x1'));
+            activeLine.setAttribute('y2', activeLine.getAttribute('y1'));
+            activeLine.setAttribute('x1', targetX);
+            activeLine.setAttribute('y1', targetY);
+          } else {
+            source = activeConnection.startNode;
+            target = targetConnector;
+            activeLine.setAttribute('x2', targetX);
+            activeLine.setAttribute('y2', targetY);
+          }
+          addConnectionToComponents(source, target, activeLine);
         }
-        addConnectionToComponents(source, target, activeLine);
       } else { // not a propper connection
         return // ignore this click
       }
@@ -1293,9 +1430,10 @@ function removeComponent(component) {
   component.remove();
 }
 function drawConnectionLine(source, target, options) {
+  options = options || {};
   const container = document.getElementById("connections").getBoundingClientRect();
-  const xOffset = target.tagName == 'rect' ? 0 : 8;
-  const yOffset = target.tagName == 'rect' ? -5 : 0;
+  const xOffset = options.size ? 0 : 8;
+  const yOffset = options.yOffset || options.size ? -5 : 0;
   const x1 = source.getBoundingClientRect().x + 8;
   const y1 = source.getBoundingClientRect().y;
   if (!target.nodeType && target.x && target.y) {
@@ -1320,7 +1458,7 @@ function drawLine(x1, y1, x2, y2, options) {
   if (!options.connectionsNotRemovable) {
     newLine.setAttribute('class', 'removable');
   }
-  document.getElementById('connections').appendChild(newLine);
+  (options.container || document.getElementById('connections')).appendChild(newLine);
   return newLine
 }
   // This stores the position of the current item being dragged
@@ -1340,7 +1478,7 @@ function drawLine(x1, y1, x2, y2, options) {
       //   })
       // ],
       // enable autoScroll
-      autoScroll: true,
+      autoScroll: false,
       listeners: {
         move(event) {
           let container = document.getElementById("connections").getBoundingClientRect();
@@ -1545,22 +1683,22 @@ const levels = [
       [[1,1], [1]]
     ]
   },
-  {
-    title: 'always on',
-    components:['not', 'and', 'or'],
-    elements:{
-      toggle:[
-        {x:200, y:200, name:'On OR Off'},
-      ],
-      output:[
-        {x:700, y:200, name:'Always ON'}
-      ],
-    },
-    truthTable:[
-      [[0], [1]],
-      [[1], [1]]
-    ]
-  },
+  // {
+  //   title: 'always on',
+  //   components:['not', 'and', 'or'],
+  //   elements:{
+  //     toggle:[
+  //       {x:200, y:200, name:'On OR Off'},
+  //     ],
+  //     output:[
+  //       {x:700, y:200, name:'Always ON'}
+  //     ],
+  //   },
+  //   truthTable:[
+  //     [[0], [1]],
+  //     [[1], [1]]
+  //   ]
+  // },
   {
     title: 'B and not A',
     components:['not', 'and', 'or'],
@@ -1689,7 +1827,7 @@ const levels = [
   },
   {
     title: 'Yummy detector ⭐',
-    components:['not', 'and3', 'or', 'xor'],
+    components:['not', 'and', 'or', 'xor'],
     elements:{
       toggle:[
         {x:200, y:150, name:'Fish'},
@@ -2271,7 +2409,7 @@ const levels = [
   },
   {
     title: 'Store 4 numbers',
-    components:['lcd4', 'dmux2', 'register'],
+    components:['Blcd', 'dmux2', 'register', 'Bmux2'],
     connectionsNotRemovable:true,
     connections:[
       ['input-0', 'out', 'component-0', 'in8'],
@@ -2292,13 +2430,57 @@ const levels = [
         {x:150, y:500, name:'which 1'},
         {x:350, y:570, name:'Save'},
       ],
-      lcd4:[
+      Blcd:[
         {x:640, y:200, name:'output'},
       ],
     },
     truthTable:[
       [[0,0,0,1],[0]],
       [[5,0,0,0],[0]],
+      [[5,0,0,1],[5]],
+      [[5,0,0,0],[5]],
+      [[7,0,1,1],[7]],
+      [[7,0,1,0],[7]],
+      [[12,1,0,1],[12]],
+      [[12,1,0,0],[12]],
+      [[9,1,1,1],[9]],
+      [[9,1,1,0],[9]],
+      [[0,0,0,0],[5]],
+      [[0,0,1,0],[7]],
+      [[0,1,0,0],[12]],
+    ]
+  },
+  {
+    title: 'Store 16 numbers',
+    components:['Blcd', 'dmux2', 'memory', 'Bmux2'],
+    connectionsNotRemovable:true,
+    connections:[
+      ['input-0', 'out', 'component-0', 'in8'],
+      ['input-1', 'out', 'component-0', 'in4'],
+      ['input-2', 'out', 'component-0', 'in2'],
+      ['input-3', 'out', 'component-0', 'in1'],
+    ],
+    elements:{
+      B4:[
+        {x:250, y:155},
+      ],
+      toggle:[
+        {x:150, y:190, groupName:'in 8', group:'input'},
+        {x:150, y:160, groupName:'in 4', group:'input'},
+        {x:150, y:130, groupName:'in 2', group:'input'},
+        {x:150, y:100, groupName:'in 1', name:'input', group:'input'},
+        {x:150, y:360, name:'which 8'},
+        {x:150, y:430, name:'which 4'},
+        {x:150, y:500, name:'which 2'},
+        {x:150, y:570, name:'which 1'},
+        {x:350, y:570, name:'Save'},
+      ],
+      Blcd:[
+        {x:640, y:200, name:'output'},
+      ],
+    },
+    truthTable:[
+      [[0,0,0,0,0,1],[0]],
     ]
   },
 ]
@@ -2450,7 +2632,7 @@ function checkTruthTableRow(index) {
   setTimeout(checkTruthTableRow, 150, index + 1)
 }
 function  numberFromLCD(lcd) {
-  if (lcd.dataset.name == 'lcd4') {
+  if (lcd.dataset.name == 'lcd4' || lcd.dataset.name == 'Blcd') {
     const ones = Number(numberFromSectionOfLCD(lcd.querySelector('.ones')));
     return ones + 10 * Number(numberFromSectionOfLCD(lcd.querySelector('.tens')));
   } else {
