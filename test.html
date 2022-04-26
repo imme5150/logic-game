@@ -480,32 +480,48 @@
         </svg>
       </div>
       <div class="hidden draggable component" style="width:min-content" data-name="memory">
-        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="50">
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="115" height="72">
           <g class="input connection" data-size="3">
-            <rect data-bus-bit="1" data-name="in1" x="5" y="13" width="8" height="4" />
-            <rect data-bus-bit="2" data-name="in2" x="5" y="17" width="8" height="4" />
-            <rect data-bus-bit="4" data-name="in4" x="5" y="21" width="8" height="4" />
-            <rect data-bus-bit="8" data-name="in8" x="5" y="25" width="8" height="4" />
+            <rect data-bus-bit="1" data-name="in1" x="5" y="25" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="in2" x="5" y="29" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="in4" x="5" y="33" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="in8" x="5" y="37" width="8" height="4" />
             <title>input</title>
           </g>
           <g class="output connection" data-size="3">
-            <rect data-bus-bit="1" data-name="out1" x="106" y="13" width="8" height="4" />
-            <rect data-bus-bit="2" data-name="out2" x="106" y="17" width="8" height="4" />
-            <rect data-bus-bit="4" data-name="out4" x="106" y="21" width="8" height="4" />
-            <rect data-bus-bit="8" data-name="out8" x="106" y="25" width="8" height="4" />
+            <rect data-bus-bit="1" data-name="out1" x="106" y="25" width="8" height="4" />
+            <rect data-bus-bit="2" data-name="out2" x="106" y="29" width="8" height="4" />
+            <rect data-bus-bit="4" data-name="out4" x="106" y="33" width="8" height="4" />
+            <rect data-bus-bit="8" data-name="out8" x="106" y="37" width="8" height="4" />
             <title>memory</title>
           </g>
-          <circle data-name="which1" cx="35" cy="38" r="8" class="input connection">
+          <circle data-name="which1" cx="35" cy="60" r="8" class="input connection">
             <title>which 1</title>
           </circle>
-          <circle data-name="which2" cx="55" cy="38" r="8" class="input connection">
+          <circle data-name="which2" cx="55" cy="60" r="8" class="input connection">
             <title>which 2</title>
           </circle>
-          <circle data-name="set" cx="85" cy="38" r="8" class="input connection">
+          <circle data-name="set" cx="85" cy="60" r="8" class="input connection">
             <title>save</title>
           </circle>
-          <rect width="89" height="38" x="15" y="2" fill="#FFF" stroke="#000" stroke-width="4"/>
-          <text x="24" y="27">Memory</text>
+          <rect width="89" height="60" x="15" y="2" fill="#FFF" stroke="#000" stroke-width="4"/>
+          <rect data-memory-addr="0-8" x="30" y="29" width="5" height="5" />
+          <rect data-memory-addr="0-4" x="36" y="29" width="5" height="5" />
+          <rect data-memory-addr="0-2" x="42" y="29" width="5" height="5" />
+          <rect data-memory-addr="0-1" x="48" y="29" width="5" height="5" />
+          <rect data-memory-addr="1-8" x="30" y="36" width="5" height="5" />
+          <rect data-memory-addr="1-4" x="36" y="36" width="5" height="5" />
+          <rect data-memory-addr="1-2" x="42" y="36" width="5" height="5" />
+          <rect data-memory-addr="1-1" x="48" y="36" width="5" height="5" />
+          <rect data-memory-addr="2-8" x="30" y="43" width="5" height="5" />
+          <rect data-memory-addr="2-4" x="36" y="43" width="5" height="5" />
+          <rect data-memory-addr="2-2" x="42" y="43" width="5" height="5" />
+          <rect data-memory-addr="2-1" x="48" y="43" width="5" height="5" />
+          <rect data-memory-addr="3-8" x="30" y="50" width="5" height="5" />
+          <rect data-memory-addr="3-4" x="36" y="50" width="5" height="5" />
+          <rect data-memory-addr="3-2" x="42" y="50" width="5" height="5" />
+          <rect data-memory-addr="3-1" x="48" y="50" width="5" height="5" />
+          <text x="24" y="22">Memory</text>
           </g>
         </svg>
       </div>
@@ -1092,6 +1108,14 @@
         number = name.slice(2);
         if (inputs.set) {
           element.dataset[`value${register}-${number}`] = inputs[name] ? '1' : '0';
+          let bit = element.querySelector(`[data-memory-addr="${register}-${number}"]`);
+          if (bit) {
+            if (inputs[name]) {
+              bit.classList.add('active');
+            } else {
+              bit.classList.remove('active');
+            }
+          }
         }
         memory[`out${number}`] = element.dataset[`value${register}-${number}`] == '1';
       }
