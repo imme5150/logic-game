@@ -1899,7 +1899,7 @@ const levels = [
   },
   {
     title: 'Half Adder ⭐',
-    components:['not', 'and3', 'or', 'xor'],
+    components:['not', 'and', 'or', 'xor'],
     elements:{
       toggle:[
         {x:200, y:200, name:'Input A'},
@@ -1919,7 +1919,7 @@ const levels = [
   },
   {
     title: 'Full Adder ⭐⭐',
-    components:['not', 'and', 'or3', 'xor3', 'halfadder'],
+    components:['not', 'and', 'or', 'or3', 'xor3', 'halfadder'],
     elements:{
       toggle:[
         {x:200, y:150, name:'Carry In'},
@@ -1959,7 +1959,7 @@ const levels = [
         {x:670, y:450, name:'9'}
       ],
       lcd7:[
-        {x:417, y:232, draggable:true},
+        {x:417, y:232, draggable:true, truthTableName:'LCD'},
       ]
     },
     truthTable:[
@@ -1983,7 +1983,7 @@ const levels = [
         {x:150, y:200, name:'Input'},
       ],
       lcd9:[
-        {x:417, y:232, draggable:true},
+        {x:417, y:232, draggable:true, truthTableName:'LCD'},
       ]
     },
     truthTable:[
@@ -2022,7 +2022,7 @@ const levels = [
         {x:150, y:200, name:'Input 1'},
       ],
       lcd9:[
-        {x:600, y:220, draggable:true},
+        {x:600, y:220, draggable:true, truthTableName:'LCD'},
       ]
     },
     truthTable:[
@@ -2100,7 +2100,7 @@ const levels = [
         {x:150, y:200, name:'Input 1'},
       ],
       lcd9:[
-        {x:600, y:270, draggable:true},
+        {x:600, y:270, draggable:true, truthTableName:'LCD'},
       ]
     },
     truthTable:[
@@ -2213,8 +2213,8 @@ const levels = [
         {x:150, y:100, name:'Input 1'},
       ],
       lcd9:[
-        {x:600, y:270},
-        {x:700, y:270},
+        {x:600, y:270, name: 'tens'},
+        {x:700, y:270, name: 'ones'},
       ]
     },
     truthTable:[
@@ -2380,15 +2380,16 @@ const levels = [
       ]
     },
     truthTable:[
-      [[0,1,1,1,0,0],[0]],
       [[1,0,0,0,0,0],[1]],
       [[0,1,0,0,0,1],[1]],
-      [[1,0,0,1,0,1],[0]],
-      [[1,0,0,1,1,0],[0]],
       [[0,0,1,0,1,0],[1]],
-      [[0,0,1,0,1,1],[0]],
-      [[1,1,1,0,1,1],[0]],
       [[0,0,0,1,1,1],[1]],
+      [[0,1,1,1,0,0],[0]],
+      [[1,0,1,1,0,1],[0]],
+      [[1,1,0,1,1,0],[0]],
+      [[1,1,1,0,1,1],[0]],
+      [[0,0,1,0,1,1],[0]],
+      [[1,1,1,1,1,1],[1]],
     ]
   },
   {
@@ -2548,7 +2549,7 @@ for (const type in level.elements) {
         groups.push(details.group);
       }
     } else {
-      array.push(details.name);
+      array.push(details.truthTableName || details.name);
     }
     details.id = inputOrOutput + '-' + counter[inputOrOutput];
     counter[inputOrOutput]++;
