@@ -1724,6 +1724,54 @@ const levels = [
   //   ]
   // },
   {
+    title: '3 input OR',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'🥝 kiwi'},
+        {x:200, y:250, name:'🍍 pineapple'},
+        {x:200, y:350, name:'🍉 watermelon'}
+      ],
+      output:[
+        {x:700, y:250, name:'Fruit'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [1]],
+      [[0,1,0], [1]],
+      [[0,1,1], [1]],
+      [[1,0,0], [1]],
+      [[1,0,1], [1]],
+      [[1,1,0], [1]],
+      [[1,1,1], [1]]
+    ]
+  },
+  {
+    title: '3 input AND',
+    components:['not', 'and', 'or'],
+    elements:{
+      toggle:[
+        {x:200, y:150, name:'🥜 Peanut Butter'},
+        {x:200, y:250, name:'🍓 Jelly'},
+        {x:200, y:350, name:'🍞 Bread'}
+      ],
+      output:[
+        {x:700, y:250, name:'PB&J Sandwich'}
+      ],
+    },
+    truthTable:[
+      [[0,0,0], [0]],
+      [[0,0,1], [0]],
+      [[0,1,0], [0]],
+      [[0,1,1], [0]],
+      [[1,0,0], [0]],
+      [[1,0,1], [0]],
+      [[1,1,0], [0]],
+      [[1,1,1], [1]]
+    ]
+  },
+  {
     title: 'B and not A',
     components:['not', 'and', 'or'],
     elements:{
@@ -1799,54 +1847,6 @@ const levels = [
       [[0,1], [1]],
       [[1,0], [1]],
       [[1,1], [0]]
-    ]
-  },
-  {
-    title: '3 input OR',
-    components:['not', 'and', 'or', 'xor'],
-    elements:{
-      toggle:[
-        {x:200, y:150, name:'Input A'},
-        {x:200, y:250, name:'Input B'},
-        {x:200, y:350, name:'Input C'}
-      ],
-      output:[
-        {x:700, y:250, name:'Output'}
-      ],
-    },
-    truthTable:[
-      [[0,0,0], [0]],
-      [[0,0,1], [1]],
-      [[0,1,0], [1]],
-      [[0,1,1], [1]],
-      [[1,0,0], [1]],
-      [[1,0,1], [1]],
-      [[1,1,0], [1]],
-      [[1,1,1], [1]]
-    ]
-  },
-  {
-    title: '3 input AND',
-    components:['not', 'and', 'or', 'xor'],
-    elements:{
-      toggle:[
-        {x:200, y:150, name:'Input A'},
-        {x:200, y:250, name:'Input B'},
-        {x:200, y:350, name:'Input C'}
-      ],
-      output:[
-        {x:700, y:250, name:'Output'}
-      ],
-    },
-    truthTable:[
-      [[0,0,0], [0]],
-      [[0,0,1], [0]],
-      [[0,1,0], [0]],
-      [[0,1,1], [0]],
-      [[1,0,0], [0]],
-      [[1,0,1], [0]],
-      [[1,1,0], [0]],
-      [[1,1,1], [1]]
     ]
   },
   {
